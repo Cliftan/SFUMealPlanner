@@ -1,0 +1,807 @@
+/* PAGE BACKGROUND */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* APP WRAPPER */
+.app-wrapper {
+  background-color: #000;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+/* MOBILE APP CONTAINER */
+.app-container {
+  width: 360px;
+  height: 640px;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* HEADER */
+.header {
+  background-color: #707070;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 20px;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.header-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.header-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button:hover {
+  opacity: 0.8;
+}
+
+/* PAGE CONTENT */
+.content {
+  flex: 1;
+  padding: 20px 16px 12px;
+  overflow-y: auto;
+}
+
+/* PROMOTIONS SECTION */
+.promotions-section {
+  margin-top: 8px;
+}
+
+.promotions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  color: #e74c3c;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  padding: 0;
+  text-align: left;
+}
+
+.card-text {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.section-button {
+  display: block;
+  margin: 16px auto 0;
+  background-color: #5a5a5a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.section-button:hover {
+  background-color: #4a4a4a;
+}
+.promotion-card {
+  background-color: #e4e4e4;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.promotion-image {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 48%, #999 48%, #999 52%, transparent 52%);
+  background-color: #d0d0d0;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
+.promotion-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.promotion-title {
+  color: #e74c3c;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  padding: 0;
+  text-align: left;
+}
+
+.promotion-location {
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 2px 0;
+  padding: 0;
+  text-align: left;
+}
+
+.promotion-description {
+  color: #666;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.promotion-button {
+  background-color: #5a5a5a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 8px;
+}
+
+.promotion-button:hover {
+  background-color: #4a4a4a;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  background-color: #666666;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #555;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.bottom-nav button span {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.bottom-nav button:hover {
+  opacity: 0.8;
+}
+
+/* FLOATING CHAT BUTTON */
+.chat-fab {
+  position: absolute;
+  right: 16px;
+  bottom: 64px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: none;
+  background-color: #707070;
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.chat-fab:hover {
+  opacity: 0.9;
+}
+
+/* SECTION CARDS */
+.section-card {
+  background-color: #f4f3f8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.card-text {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.section-button {
+  display: block;
+  margin: 16px auto 0;
+  background-color: #5a5a5a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.section-button:hover {
+  background-color: #4a4a4a;
+}
+
+.budget-bar {
+  width: 100%;
+  height: 14px;
+  background-color: #dedde4;
+  border-radius: 7px;
+  margin: 12px 0 20px;
+  box-shadow: inset 0 0 0 2px #c5c5c5;
+}
+
+/* FLOW / SCHEDULE SCREENS */
+.flow-card {
+  background-color: #f4f3f8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.flow-card-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.flow-subtitle {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.flow-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.flow-label {
+  font-size: 12px;
+  color: #555;
+}
+
+.flow-value {
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+}
+
+.flow-field {
+  margin-bottom: 10px;
+}
+
+.flow-input {
+  margin-top: 4px;
+  height: 18px;
+  background-color: #dedde4;
+  border-radius: 9px;
+}
+
+.flow-text-input {
+  margin-top: 4px;
+  width: 100%;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #c5c5c5;
+  padding: 2px 6px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.flow-input-small {
+  width: 60%;
+}
+
+.flow-secondary-button {
+  margin-top: 12px;
+  background-color: transparent;
+  border: 1px dashed #aaa;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 11px;
+  color: #555;
+  cursor: pointer;
+}
+
+.flow-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.flow-ghost-button,
+.flow-primary-button {
+  min-width: 100px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.flow-ghost-button {
+  border: 1px solid #bbb;
+  background-color: transparent;
+  color: #555;
+}
+
+.flow-primary-button {
+  border: none;
+  background-color: #5a5a5a;
+  color: #fff;
+}
+
+.flow-howto {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+}
+
+.flow-howto-title {
+  font-size: 13px;
+  color: #e74c3c;
+  margin-bottom: 4px;
+}
+
+.flow-howto-text {
+  font-size: 12px;
+  color: #666;
+}
+
+.flow-budget-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.flow-budget-input {
+  max-width: 80px;
+}
+
+.flow-slider {
+  width: 100%;
+  height: 18px;
+  background-color: #dedde4;
+  border-radius: 9px;
+  margin-bottom: 12px;
+}
+
+.flow-slider-input {
+  width: 100%;
+  margin: 4px 0 12px;
+}
+
+.flow-presets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.flow-preset-button {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 16px;
+  border: none;
+  background-color: #5a5a5a;
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.flow-circle-outline {
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+  border: 6px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px 0 12px;
+}
+
+.flow-circle-inner {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  border: 4px solid #aaa;
+}
+
+.flow-generating-text {
+  font-size: 13px;
+  color: #666;
+}
+
+.option-card {
+  display: flex;
+  background-color: #e4e4e4;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.option-card-selectable {
+  width: 100%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.option-card-selected {
+  border-color: #e74c3c;
+}
+
+.option-image {
+  width: 48px;
+  height: 48px;
+  background-color: #d0d0d0;
+  border: 1px solid #aaa;
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-title {
+  font-size: 13px;
+  color: #e74c3c;
+  margin-bottom: 2px;
+}
+
+.option-meta {
+  font-size: 12px;
+  color: #555;
+}
+
+.plan-grid {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.plan-column {
+  flex: 1;
+}
+
+.plan-day {
+  font-size: 12px;
+  color: #e74c3c;
+  margin-bottom: 4px;
+}
+
+.plan-card {
+  background-color: #e4e4e4;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.plan-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #555;
+}
+
+/* ANALYTICS */
+.analytics-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+}
+
+.analytics-circle-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 130px;
+  text-align: center;
+}
+
+.analytics-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 8px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.analytics-circle-inner {
+  width: 52px;
+  height: 52px;
+  border-radius: 26px;
+  border: 5px solid #aaa;
+}
+
+.analytics-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.analytics-helper {
+  font-size: 11px;
+  color: #666;
+}
+
+/* RESTAURANTS */
+.restaurant-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.restaurant-card {
+  display: flex;
+  align-items: center;
+  background-color: #e4e4e4;
+  border-radius: 6px;
+  padding: 8px;
+  gap: 8px;
+}
+
+.restaurant-image {
+  width: 40px;
+  height: 40px;
+  background-color: #d0d0d0;
+  border: 1px solid #aaa;
+}
+
+.restaurant-content {
+  flex: 1;
+}
+
+.restaurant-title {
+  font-size: 13px;
+  color: #e74c3c;
+  margin-bottom: 2px;
+}
+
+.restaurant-meta {
+  font-size: 11px;
+  color: #555;
+}
+
+.restaurant-price {
+  font-size: 13px;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* CHAT */
+.chat-bubble {
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 12px;
+  margin-bottom: 8px;
+  max-width: 85%;
+}
+
+.chat-bubble-ai {
+  background-color: #e4e4e4;
+  align-self: flex-start;
+}
+
+.chat-bubble-user {
+  background-color: #dedde4;
+  align-self: flex-end;
+}
+
+.chat-input-placeholder {
+  margin-top: 12px;
+  border-radius: 16px;
+  background-color: #dedde4;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #777;
+}
+
+.chat-messages {
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.chat-quick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.chat-quick-pill {
+  padding: 4px 10px;
+  border-radius: 14px;
+  border: 1px solid #c5c5c5;
+  background-color: #f4f3f8;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.chat-input-row {
+  display: flex;
+  margin-top: 4px;
+  gap: 6px;
+}
+
+.chat-input {
+  flex: 1;
+  border-radius: 16px;
+  border: 1px solid #c5c5c5;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.chat-send-button {
+  width: 32px;
+  border-radius: 16px;
+  border: none;
+  background-color: #5a5a5a;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* FILTERS */
+.filters-group {
+  margin-bottom: 16px;
+}
+
+.filters-label {
+  font-size: 13px;
+  color: #e74c3c;
+  margin-bottom: 6px;
+}
+
+.filters-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filters-pill {
+  padding: 4px 12px;
+  border-radius: 16px;
+  border: 1px solid #c5c5c5;
+  background-color: #f4f3f8;
+  font-size: 11px;
+  color: #555;
+  cursor: pointer;
+}
+
+.filters-card {
+  height: 60px;
+  background-color: #e4e4e4;
+  border-radius: 8px;
+}
+
+/* SCHEDULE DAY CONTROLS */
+.day-arrow {
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+.day-arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.day-select {
+  flex: 1;
+  margin: 0 4px;
+}
+
+.flow-meal-block {
+  margin-top: 8px;
+  padding-top: 4px;
+  border-top: 1px dashed #ccc;
+}
+
+/* OVERRIDE index.css styles for mobile app */
+.app-container h1,
+.app-container h2,
+.app-container p,
+.app-container h3 {
+  text-align: left;
+  margin-top: 0;
+}
+
+.app-container h1 {
+  font-size: 24px;
+  margin: 0 0 16px 0;
+}
+
+.app-container h2 {
+  font-size: 20px;
+  margin: 0 0 12px 0;
+}
+
+.app-container h3 {
+  margin: 0;
+}
+
+.app-container p {
+  margin: 0;
+}
