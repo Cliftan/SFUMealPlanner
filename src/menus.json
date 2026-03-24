@@ -1,0 +1,451 @@
+[
+  {
+    "id": "burnaby_aw_001",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Teen Burger",
+    "price": 8.49,
+    "calories": 500,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "beef"]
+  },
+  {
+    "id": "burnaby_aw_002",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Chicken Strips Combo",
+    "price": 12.69,
+    "calories": 300,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["chicken", "fried"]
+  },
+  {
+    "id": "burnaby_aw_003",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "English Muffin Bacon & Egger",
+    "price": 4.99,
+    "calories": 380,
+    "meal_type": "breakfast",
+    "tags": ["egg", "quick"]
+  },
+  {
+    "id": "burnaby_aw_004",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Buddy Burger",
+    "price": 2.99,
+    "calories": 334,
+    "meal_type": "lunch",
+    "tags": ["burger", "beef", "kids"]
+  },
+  {
+    "id": "burnaby_aw_005",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Beyond Meat Burger",
+    "price": 8.49,
+    "calories": 500,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "plant-based"]
+  },
+  {
+    "id": "burnaby_aw_006",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Mozza Burger",
+    "price": 8.49,
+    "calories": 620,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "beef", "cheese"]
+  },
+  {
+    "id": "burnaby_aw_007",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Onion Rings",
+    "price": 4.99,
+    "calories": 520,
+    "meal_type": "snack",
+    "tags": ["side", "vegetarian"]
+  },
+  {
+    "id": "burnaby_aw_008",
+    "campus": "Burnaby",
+    "restaurant": "A&W",
+    "meal": "Root Beer Float",
+    "price": 4.19,
+    "calories": 350,
+    "meal_type": "snack",
+    "tags": ["drink", "dessert"]
+  },
+  {
+    "id":"burnaby_th_001",
+    "campus":"Burnaby",
+    "restaurant":"Tim Hortons",
+    "meal":"Farmer's Breakfast Wrap",
+    "price": 5.99,
+    "calories": 640,
+    "meal_type": "breakfast",
+    "tags": ["wrap", "egg", "bacon", "sausage"]
+  },
+  {
+    "id":"burnaby_th_002",
+    "campus":"Burnaby",
+    "restaurant":"Tim Hortons",
+    "meal":"3 Meat Hat-Trick Flatbread Pizza",
+    "price": 8.99,
+    "calories": 930,
+    "meal_type": "lunch",
+    "tags": ["pizza", "cheese"]
+  },
+  {
+    "id":"burnaby_th_003",
+    "campus":"Burnaby",
+    "restaurant":"Tim Hortons",
+    "meal":"Medium Brewed Coffee",
+    "price": 1.83,
+    "calories": 4,
+    "meal_type": "drink",
+    "tags": ["coffee"]
+  },
+  {
+    "id":"burnaby_th_004",
+    "campus":"Burnaby",
+    "restaurant":"Tim Hortons",
+    "meal":"Medium Iced Cappuccino",
+    "price": 3.29,
+    "calories": 260,
+    "meal_type": "snack",
+    "tags": ["coffee", "dessert", "cold"]
+  },
+  {
+    "id":"burnaby_th_005",
+    "campus":"Burnaby",
+    "restaurant":"Tim Hortons",
+    "meal":"6 Assorted Donuts",
+    "price": 7.99,
+    "calories": 1860,
+    "meal_type": "snack",
+    "tags": ["dessert"]
+  },
+  {
+    "id":"burnaby_pho_001",
+    "campus":"Burnaby",
+    "restaurant":"Pho 99",
+    "meal":"Phở đặc biệt",
+    "price": 17,
+    "meal_type": ["dinner", "lunch"],
+    "tags": ["rice noodles", "beef", "soup"]
+  },
+  {
+    "id":"burnaby_pho_002",
+    "campus":"Burnaby",
+    "restaurant":"Pho 99",
+    "meal":"Bún bò Huế",
+    "price": 17,
+    "meal_type": ["dinner", "lunch"],
+    "tags": ["spicy", "beef", "soup"]
+  },
+  {
+    "id":"burnaby_pho_003",
+    "campus":"Burnaby",
+    "restaurant":"Pho 99",
+    "meal":"Veggie Salad Roll",
+    "price": 4.50,
+    "meal_type": "snack",
+    "tags": ["vegetarian", "gluten-free", "appetizer"]
+  },
+  {
+    "id":"burnaby_pho_004",
+    "campus":"Burnaby",
+    "restaurant":"Pho 99",
+    "meal":"Bánh mì Thịt Nướng",
+    "price": 10.50,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["sandwich", "pork", "grilled"]
+  },
+  {
+    "id":"burnaby_pho_005",
+    "campus":"Burnaby",
+    "restaurant":"Pho 99",
+    "meal": "Cà Phê Sữa Dá",
+    "price": 6.50,
+    "meal_type": "dessert",
+    "tags": ["coffee", "sweet", "cold"]
+  },
+  {
+    "id": "burnaby_pho_006",
+    "campus": "Burnaby",
+    "restaurant": "Pho 99",
+    "meal": "Gà Nướng Sả",
+    "price": 19.50,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["chicken", "grilled", "spicy"]
+  },
+  {
+    "id": "burnaby_togo_001",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Deluxe Sushi Combo",
+    "price": 28.00,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["sushi", "combo"]
+  },
+  {
+    "id": "burnaby_togo_002",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Shrimp Yaki Udon",
+    "price": 18.00,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["udon", "shrimp", "stir-fry"]
+  },
+  {
+    "id": "burnaby_togo_003",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Yam Tempura",
+    "price": 9.00,
+    "meal_type": "snack",
+    "tags": ["tempura", "vegetarian", "side"]
+  },
+  {
+    "id": "burnaby_togo_004",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Chicken Bento",
+    "price": 12.00,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["bento", "chicken", "rice"]
+  },
+  {
+    "id": "burnaby_togo_005",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Sashimi and Sushi Bento",
+    "price": 24.00,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["sashimi", "sushi", "bento"]
+  },
+  {
+    "id": "burnaby_togo_006",
+    "campus": "Burnaby",
+    "restaurant": "Togo Sushi",
+    "meal": "Miso Soup",
+    "price": 1.50,
+    "meal_type": "snack",
+    "tags": ["soup", "vegetarian", "side"]
+  },
+  {
+    "id": "surrey_aw_001",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Teen Burger",
+    "price": 8.49,
+    "calories": 500,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "beef"]
+  },
+  {
+    "id": "surrey_aw_002",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Chicken Strips Combo",
+    "price": 12.69,
+    "calories": 300,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["chicken", "fried"]
+  },
+  {
+    "id": "surrey_aw_003",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "English Muffin Bacon & Egger",
+    "price": 4.99,
+    "calories": 380,
+    "meal_type": "breakfast",
+    "tags": ["egg", "quick"]
+  },
+  {
+    "id": "surrey_aw_004",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Buddy Burger",
+    "price": 2.99,
+    "calories": 334,
+    "meal_type": "lunch",
+    "tags": ["burger", "beef", "kids"]
+  },
+  {
+    "id": "surrey_aw_005",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Beyond Meat Burger",
+    "price": 8.49,
+    "calories": 500,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "plant-based"]
+  },
+  {
+    "id": "surrey_aw_006",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Mozza Burger",
+    "price": 8.49,
+    "calories": 620,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["burger", "beef", "cheese"]
+  },
+  {
+    "id": "surrey_aw_007",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Onion Rings",
+    "price": 4.99,
+    "calories": 520,
+    "meal_type": "snack",
+    "tags": ["side", "vegetarian"]
+  },
+  {
+    "id": "surrey_aw_008",
+    "campus": "Surrey",
+    "restaurant": "A&W",
+    "meal": "Root Beer Float",
+    "price": 4.19,
+    "calories": 350,
+    "meal_type": "snack",
+    "tags": ["drink", "dessert"]
+  },
+  {
+    "id":"surrey_th_001",
+    "campus":"Surrey",
+    "restaurant":"Tim Hortons",
+    "meal":"Farmer's Breakfast Wrap",
+    "price": 5.99,
+    "calories": 640,
+    "meal_type": "breakfast",
+    "tags": ["wrap", "egg", "bacon", "sausage"]
+  },
+  {
+    "id":"surrey_th_002",
+    "campus":"Surrey",
+    "restaurant":"Tim Hortons",
+    "meal":"3 Meat Hat-Trick Flatbread Pizza",
+    "price": 8.99,
+    "calories": 930,
+    "meal_type": "lunch",
+    "tags": ["pizza", "cheese"]
+  },
+  {
+    "id":"surrey_th_003",
+    "campus":"Surrey",
+    "restaurant":"Tim Hortons",
+    "meal":"Medium Brewed Coffee",
+    "price": 1.83,
+    "calories": 4,
+    "meal_type": "drink",
+    "tags": ["coffee"]
+  },
+  {
+    "id":"surrey_th_004",
+    "campus":"Surrey",
+    "restaurant":"Tim Hortons",
+    "meal":"Medium Iced Cappuccino",
+    "price": 3.29,
+    "calories": 260,
+    "meal_type": "snack",
+    "tags": ["coffee", "dessert", "cold"]
+  },
+  {
+    "id":"surrey_th_005",
+    "campus":"Surrey",
+    "restaurant":"Tim Hortons",
+    "meal":"6 Assorted Donuts",
+    "price": 7.99,
+    "calories": 1860,
+    "meal_type": "snack",
+    "tags": ["dessert"]
+  },
+  {
+    "id":"surrey_mch_001",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal":"Beef and Broccoli Combo",
+    "price": 14.75,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["beef", "broccoli", "chinese"]
+  },
+  {
+    "id":"surrey_mch_002",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "Orange Chicken Combo",
+    "price": 14.75,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["chicken", "orange sauce", "chinese"]
+   },
+   {
+    "id":"surrey_mch_003",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "A La Carte Vegetable",
+    "price": 11.15,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["vegetarian", "chinese"]
+   },
+   {
+    "id":"surrey_mch_004",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "A La Carte Shanghai Noodles",
+    "price": 8.15,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["noodles", "vegetarian", "chinese"]
+   },
+   {
+    "id":"surrey_mch_005",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "Regular Wonton Soup",
+    "price": 12.90,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["wonton", "soup", "chinese"]
+   },
+   {
+    "id":"surrey_mch_006",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "Chicken Wings (4pcs)",
+    "price": 7.30,
+    "meal_type": "snack",
+    "tags": ["chicken", "appetizer", "chinese"]
+    },
+    {
+    "id":"surrey_mch_007",
+    "campus":"Surrey",
+    "restaurant":"Manchu Wok",
+    "meal": "Sweet and Sour Pork Combo",
+    "price": 14.75,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["pork", "sweet and sour", "chinese"]
+    },
+    {
+    "id":"surrey_bp_001",
+    "campus":"Surrey",
+    "restaurant":"Boston Pizza",
+    "meal":"Pepperoni Pizza 8inch",
+    "price": 12.49,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["pizza", "pepperoni", "italian"]
+    },
+    {
+    "id":"surrey_bp_002",
+    "campus":"Surrey",
+    "restaurant":"Boston Pizza",
+    "meal":"Veggie Pizza 8inch",
+    "price": 12.49,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["pizza", "vegetarian", "italian"]
+    }
+]
