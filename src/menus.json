@@ -384,8 +384,8 @@
     "price": 14.75,
     "meal_type": ["lunch", "dinner"],
     "tags": ["chicken", "orange sauce", "chinese"]
-   },
-   {
+  },
+  {
     "id":"surrey_mch_003",
     "campus":"Surrey",
     "restaurant":"Manchu Wok",
@@ -393,8 +393,8 @@
     "price": 11.15,
     "meal_type": ["lunch", "dinner"],
     "tags": ["vegetarian", "chinese"]
-   },
-   {
+  },
+  {
     "id":"surrey_mch_004",
     "campus":"Surrey",
     "restaurant":"Manchu Wok",
@@ -402,8 +402,8 @@
     "price": 8.15,
     "meal_type": ["lunch", "dinner"],
     "tags": ["noodles", "vegetarian", "chinese"]
-   },
-   {
+  },
+  {
     "id":"surrey_mch_005",
     "campus":"Surrey",
     "restaurant":"Manchu Wok",
@@ -411,8 +411,8 @@
     "price": 12.90,
     "meal_type": ["lunch", "dinner"],
     "tags": ["wonton", "soup", "chinese"]
-   },
-   {
+  },
+  {
     "id":"surrey_mch_006",
     "campus":"Surrey",
     "restaurant":"Manchu Wok",
@@ -420,8 +420,8 @@
     "price": 7.30,
     "meal_type": "snack",
     "tags": ["chicken", "appetizer", "chinese"]
-    },
-    {
+  },
+  {
     "id":"surrey_mch_007",
     "campus":"Surrey",
     "restaurant":"Manchu Wok",
@@ -429,8 +429,8 @@
     "price": 14.75,
     "meal_type": ["lunch", "dinner"],
     "tags": ["pork", "sweet and sour", "chinese"]
-    },
-    {
+  },
+  {
     "id":"surrey_bp_001",
     "campus":"Surrey",
     "restaurant":"Boston Pizza",
@@ -438,8 +438,8 @@
     "price": 12.49,
     "meal_type": ["lunch", "dinner"],
     "tags": ["pizza", "pepperoni", "italian"]
-    },
-    {
+  },
+  {
     "id":"surrey_bp_002",
     "campus":"Surrey",
     "restaurant":"Boston Pizza",
@@ -447,5 +447,32 @@
     "price": 12.49,
     "meal_type": ["lunch", "dinner"],
     "tags": ["pizza", "vegetarian", "italian"]
-    }
+  },
+  {
+    "id":"surrey_bp_003",
+    "campus":"Surrey",
+    "restaurant":"Boston Pizza",
+    "meal":"Classic Nachos",
+    "price": 23.29,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["nachos", "appetizer", "mexican"]
+  },
+  {
+    "id":"surrey_bp_004",
+    "campus":"Surrey",
+    "restaurant":"Boston Pizza",
+    "meal":"Chicken Wings (Starter Size)",
+    "price": 18.49,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["chicken", "appetizer", "mexican"]
+  },
+  {
+    "id":"surrey_bp_005",
+    "campus":"Surrey",
+    "restaurant":"Boston Pizza",
+    "meal":"Parmesan Shrimp Alfredo ",
+    "price": 14.99,
+    "meal_type": ["lunch", "dinner"],
+    "tags": ["shrimp", "alfredo", "italian"]
+  }
 ]
