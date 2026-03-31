@@ -1,1 +1,1 @@
-﻿{"campuses":[{"id":"burnaby","name":"Burnaby Campus","restaurants":[{"name":"Sample Cafe","items":[{"id":"item1","name":"Burger","price":9.99},{"id":"item2","name":"Salad","price":7.99}]}]}]}
+﻿{"campuses":[{"id":"burnaby","name":"Burnaby Campus","restaurants":[{"name":"Sample Cafe","items":[{"id":"item1","name":"Burger","price":9.99},{"id":"item2","name":"Salad","price":7.99}]}]},{"id":"surrey","name":"Surrey Campus","restaurants":[{"name":"Surrey Cafe","items":[{"id":"item3","name":"Sandwich","price":8.99},{"id":"item4","name":"Wrap","price":6.99}]}]}]}

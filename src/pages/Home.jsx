@@ -1,10 +1,14 @@
 // pages/Home.jsx
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import WeekGlanceCard from "../components/WeekGlanceCard";
 import BudgetCard from "../components/BudgetCard";
 import PromotionCard from "../components/PromotionCard";
 import BottomNav from "../components/BottomNav";
+import breakfastImage from "../Resources/Images/breakfast.jpg";
+import bubbleteaImage from "../Resources/Images/bubbletea.jpg";
+import chatIcon from "../Resources/Icons/chat.png";
 
 const STORAGE_KEY = "sfu-meal-plan-week";
 
@@ -12,17 +16,14 @@ const promotions = [
   {
     title: "Free Breakfast!",
     location: "Simon Fraser Student Society",
-    description: "Come visit us at the SFU SUB for free breakfast!"
+    description: "Come visit us at the SFU SUB for free breakfast!",
+    image: breakfastImage
   },
   {
     title: "BOGO Milk Tea 50% Off",
     location: "Bien Gong's Tea",
-    description: "Buy one get one 50% off all Milk Tea every weekdays from 2-5pm!"
-  },
-  {
-    title: "20% Off Coupon",
-    location: "Restaurants in the SUB",
-    description: "All restaurants participating - come visit us on March 6th!"
+    description: "Buy one get one 50% off all Milk Tea every weekdays from 2-5pm!",
+    image: bubbleteaImage
   }
 ];
 
@@ -32,33 +33,41 @@ function PlannedWeekCard({ plan }) {
   return (
     <div className="section-card">
       <h2 className="section-title">Week at a Glance</h2>
-      {days.map((day) => {
-        const ids = selectedByDay[day.label] || [];
-        if (!ids.length) return null;
-        const items = options.filter((opt) => ids.includes(opt.id));
-        return (
-          <div key={day.label} className="plan-day-block">
-            <h3 className="plan-day">{day.label}</h3>
-            {items.map((item) => (
-              <div key={item.id} className="plan-card">
-                <div className="plan-row">
-                  <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
+      <div className="plan-grid">
+        {days.map((day) => {
+          const ids = selectedByDay[day.label] || [];
+          if (!ids.length) return null;
+          const items = options.filter((opt) => ids.includes(opt.id));
+          return (
+            <div key={day.label} className="plan-column">
+              <h3 className="plan-day">{day.label}</h3>
+              {items.map((item) => (
+                <div key={item.id} className="plan-card">
+                  <div className="plan-row">
+                    <span>Meal</span>
+                    <span>{item.name}</span>
+                  </div>
+                  <div className="plan-row">
+                    <span>Location</span>
+                    <span>{item.restaurant}</span>
+                  </div>
+                  <div className="plan-row">
+                    <span>Price</span>
+                    <span>${Number(item.price).toFixed(2)}</span>
+                  </div>
                 </div>
-                <div className="plan-row">
-                  <span>{item.restaurant}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      })}
+              ))}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 export default function Home() {
   const [weekPlan, setWeekPlan] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -75,7 +84,23 @@ export default function Home() {
         <Header />
 
         <div className="content">
-          {weekPlan ? <PlannedWeekCard plan={weekPlan} /> : <WeekGlanceCard />}
+          {weekPlan ? (
+            <PlannedWeekCard plan={weekPlan} />
+          ) : (
+            <div className="section-card">
+              <h2 className="section-title">Plan Your Meals</h2>
+              <p className="card-text">
+                You haven't planned your meals for the week yet.
+              </p>
+              <button
+                className="section-button"
+                type="button"
+                onClick={() => navigate("/schedule")}
+              >
+                Create Schedule
+              </button>
+            </div>
+          )}
 
           <BudgetCard />
 
@@ -90,6 +115,16 @@ export default function Home() {
         </div>
 
         <BottomNav />
+
+        {/* Floating Action Button */}
+        <button
+          className="chat-fab"
+          onClick={() => navigate("/chat")}
+          aria-label="Open Chat"
+        >
+          <img src={chatIcon} alt="Chat" />
+          <span>Chat</span>
+        </button>
       </div>
     </div>
   );

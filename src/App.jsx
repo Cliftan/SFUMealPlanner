@@ -4,7 +4,7 @@ import Schedule from "./pages/Schedule";
 import Analytics from "./pages/Analytics";
 import Restaurants from "./pages/Restaurants";
 import Filters from "./pages/Filters";
-import Help from "./pages/Help";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/filters" element={<Filters />} />
-        <Route path="/help" element={<Help />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   );

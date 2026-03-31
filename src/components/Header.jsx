@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import logoIcon from "../Resources/Icons/logo.png";
+import settingsIcon from "../Resources/Icons/settings.png";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -6,7 +8,7 @@ export default function Header() {
   return (
     <div className="header">
       <div className="header-left">
-        <span className="header-icon">🍽</span>
+        <img src={logoIcon} alt="Logo" className="header-icon" />
         <span className="header-title">SFU Meal Planner</span>
       </div>
       <div className="header-icons">
@@ -15,14 +17,7 @@ export default function Header() {
           type="button"
           onClick={() => navigate("/filters")}
         >
-          ⚙
-        </button>
-        <button
-          className="header-button"
-          type="button"
-          onClick={() => navigate("/help")}
-        >
-          ❓
+          <img src={settingsIcon} alt="Settings" />
         </button>
       </div>
     </div>
