@@ -33,7 +33,7 @@ export async function processMessageToChatGPT(userMessage) {
         
         if (data.choices && data.choices.length > 0) {
             // Return the assistant's response
-            const response =  data.choices[0].message.content;
+            const response =  data.choices[0].message.content.replace(/\*\*(.*?)\*\*/g, "$1");
 
             conversationHistory.push({
                 role: "assistant",

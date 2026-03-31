@@ -1,17 +1,40 @@
 import ChatbotIcon from "./components/ChatbotIcon";
 import ChatForm from "./components/ChatForm";
-import { useState } from "react";
+import { useEffect, useState, useRef} from "react";
 import ChatMessage from "./components/ChatMessage";
 import { processMessageToChatGPT } from "./chatbot";
 
 const App = () => {
   const [chatHistory, setChatHistory] = useState([]);
+  const [showChatbot, setShowChatbot] = useState(false);
+  const lastMessageRef = useRef(null);
 
-  const generateBotResponse = async(history) => {
-    await console.log(processMessageToChatGPT(history.toString()));
-  }
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView(true);
+  }, [chatHistory]);
 
-  return <div className="container">
+  const generateBotResponse = async(userMessage) => {
+    try {
+      const botReply = await processMessageToChatGPT(userMessage);
+
+      setChatHistory((history) => [
+        ...history.slice(0, -1),
+        { role: "model", text: botReply }
+      ]);
+    } catch (error) {
+      setChatHistory((history) => [
+        ...history.slice(0, -1),
+        { role: "model", text: "Sorry, something went wrong." }
+      ]);
+    }
+  };
+
+  return <div className={`container ${showChatbot ? "show-chatbot" : ""}`}>
+    <button onClick={() => setShowChatbot(prev => !prev)} id="chatbot-toggler">
+      <span className="material-symbols-rounded">mode_comment</span>
+      <span className="material-symbols-rounded">close</span>
+    </button>
+
     <div className="chatbot-popup">
       {/* Chatbot Header */}
       <div className="chat-header">
@@ -19,7 +42,7 @@ const App = () => {
           <ChatbotIcon />
           <h2 className="logo-text">Chatbot</h2>
         </div>
-        <button className="material-symbols-outlined">
+        <button onClick={() => setShowChatbot(prev => !prev)} className="material-symbols-rounded">
           keyboard_arrow_down
         </button>
       </div>
@@ -35,7 +58,9 @@ const App = () => {
 
         {/* Render the chat history dynamically */}
         {chatHistory.map((chat, index) => (
-          <ChatMessage key={index} chat={chat} />
+          <div key={index} ref={index === chatHistory.length - 1 ? lastMessageRef : null}>
+          <ChatMessage chat={chat} />
+          </div>
         ))}
       </div>
 
