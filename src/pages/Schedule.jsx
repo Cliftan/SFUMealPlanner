@@ -85,6 +85,18 @@ export default function Schedule() {
   const [selectedByDay, setSelectedByDay] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // Check if there's an existing schedule in localStorage
+  const hasExistingSchedule = (() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return parsed.days && parsed.days.length > 0;
+    } catch {
+      return false;
+    }
+  })();
+
   const currentDay = days[currentDayIndex];
 
   // Simple mock meal plan generator
@@ -113,15 +125,16 @@ export default function Schedule() {
             <div className="section-card">
               <h2 className="section-title">Edit Your Schedule</h2>
               <p className="card-text">
-                You haven&apos;t planned your meals for <br />
-                {days[0]?.label} - {days[days.length - 1]?.label}
+                {hasExistingSchedule
+                  ? "Update your current meal schedule for the week"
+                  : `You haven't planned your meals for ${days[0]?.label} - ${days[days.length - 1]?.label}`}
               </p>
               <button
                 className="section-button"
                 type="button"
                 onClick={() => setStep(STEPS.SCHEDULE_FORM)}
               >
-                Create Schedule
+                {hasExistingSchedule ? "Edit Schedule" : "Create Schedule"}
               </button>
             </div>
           )}

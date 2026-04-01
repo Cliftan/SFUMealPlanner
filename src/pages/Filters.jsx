@@ -1,44 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 
-function PreferenceEditor({ label, initial }) {
-  const [items, setItems] = useState(initial);
+function PreferenceEditor({ label, storageKey, initial }) {
+  const [items, setItems] = useState(() => {
+    // Load from localStorage on initial render
+    const stored = localStorage.getItem(storageKey);
+    return stored ? JSON.parse(stored) : initial;
+  });
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
+
+  // Save to localStorage whenever items change
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(items));
+  }, [items, storageKey]);
+
+  const handleRemoveItem = (item) => {
+    setItems((prev) => prev.filter((current) => current !== item));
+  };
+
+  const handleCustomClick = () => {
+    navigate("/chat");
+  };
+
+  const handleAddItem = (e) => {
+    e.preventDefault();
+    if (!input.trim() || items.includes(input.trim())) return;
+    setItems((prev) => [...prev, input.trim()]);
+    setInput("");
+  };
 
   return (
-    <div className="filters-group">
-      <h3 className="filters-label">{label}</h3>
-      <div className="filters-pill-row">
+    <div className="filter-card">
+      <h3 className="filter-section-title">{label}</h3>
+      <div className="filter-pills-container">
         {items.map((item) => (
           <button
             key={item}
             type="button"
-            className="filters-pill filters-pill-removable"
-            onClick={() =>
-              setItems((prev) => prev.filter((current) => current !== item))
+            className={item === "+ Custom" ? "filter-pill custom-button" : "filter-pill"}
+            onClick={
+              item === "+ Custom"
+                ? handleCustomClick
+                : () => handleRemoveItem(item)
             }
           >
-            {item} <span className="filters-pill-x">✕</span>
+            {item}
+            {item !== "+ Custom" && <span className="filter-pill-x">✕</span>}
           </button>
         ))}
       </div>
-      <form
-        className="filters-add-row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!input.trim() || items.includes(input.trim())) return;
-          setItems((prev) => [...prev, input.trim()]);
-          setInput("");
-        }}
-      >
-        <input
-          className="flow-text-input"
-          placeholder={`Add ${label.toLowerCase()}…`}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-      </form>
     </div>
   );
 }
@@ -48,36 +61,31 @@ export default function Filters() {
     <div className="app-wrapper">
       <div className="app-container">
         <Header />
-
         <div className="content">
-          <div className="section-card">
-            <h2 className="section-title">Settings</h2>
-
-            <PreferenceEditor
-              label="Diet Restrictions"
-              initial={["None", "Halal", "Vegan", "Gluten-Free"]}
-            />
-
-            <PreferenceEditor
-              label="Preferred"
-              initial={["Burger", "Asian", "Cafe"]}
-            />
-
-            <PreferenceEditor
-              label="Avoid"
-              initial={["Spicy", "Seafood"]}
-            />
-
-            <div className="filters-group">
-              <h3 className="filters-label">Privacy</h3>
-              <div className="filters-card" />
-            </div>
+          <div className="settings-header">
+            <h2 className="settings-title">Settings</h2>
+            <p className="settings-subtitle">
+              Preferences can also be added using the Chat tab.
+            </p>
           </div>
+          <PreferenceEditor
+            label="Diet Restrictions"
+            storageKey="dietRestrictions"
+            initial={["Dairy", "Eggs", "Fish", "Nuts", "Gluten", "+ Custom"]}
+          />
+          <PreferenceEditor
+            label="Preferred"
+            storageKey="preferred"
+            initial={["Fast Food", "+ Custom"]}
+          />
+          <PreferenceEditor
+            label="Avoid"
+            storageKey="avoid"
+            initial={["Salad", "+ Custom"]}
+          />
         </div>
-
         <BottomNav />
       </div>
     </div>
   );
 }
-

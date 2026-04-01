@@ -1002,3 +1002,117 @@ body {
   opacity: 0.9;
   transform: scale(1.05);
 }
+
+/* ==================== SETTINGS/FILTERS PAGE STYLES ==================== */
+
+/* SETTINGS HEADER */
+.settings-header {
+  margin-bottom: 20px;
+}
+
+.settings-title {
+  color: #A7192F;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  padding: 0;
+}
+
+.settings-subtitle {
+  color: #999;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* FILTER CARDS */
+.filter-card {
+  background-color: #d9d9d9;
+  border-radius: 8px;
+  padding: 14px 14px;
+  margin-bottom: 14px;
+}
+
+.filter-section-title {
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  padding: 0;
+  text-align: left;
+}
+
+.filter-pills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-pill {
+  background-color: transparent;
+  border: 1px solid #888;
+  color: #333;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-pill:hover {
+  background-color: #c0c0c0;
+  border-color: #666;
+}
+
+.filter-pill:active {
+  background-color: #b0b0b0;
+  border-color: #555;
+}
+
+.filter-pill-x {
+  margin-left: 6px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.filter-pill-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.filter-remove-btn {
+  background-color: transparent;
+  border: none;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.filter-remove-btn:hover {
+  color: #333;
+  transform: scale(1.2);
+}
+
+.custom-button {
+  background-color: #A7192F;
+  border: 1px solid #A7192F;
+  color: white;
+}
+
+.custom-button:hover {
+  background-color: #8b1427;
+  border-color: #8b1427;
+}
