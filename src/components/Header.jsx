@@ -9,7 +9,7 @@ export default function Header() {
     <div className="header">
       <div className="header-left">
         <img src={logoIcon} alt="Logo" className="header-icon" />
-        <span className="header-title">SFU Meal Planner</span>
+        <span className="header-title">SFU MealMap</span>
       </div>
       <div className="header-icons">
         <button

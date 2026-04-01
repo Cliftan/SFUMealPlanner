@@ -23,7 +23,31 @@ const STEPS = {
 };
 
 const STORAGE_KEY = "sfu-meal-plan-week";
-const WEEK_DAYS = ["March 9", "March 10", "March 11", "March 12", "March 13"];
+
+function getThisWeekMonday(today = new Date()) {
+  const dayOfWeek = today.getDay();
+  const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + diffToMonday);
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+}
+
+function formatDayLabel(date) {
+  return date.toLocaleDateString(undefined, {
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function getWeekDayLabels() {
+  const monday = getThisWeekMonday();
+  return Array.from({ length: 5 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return formatDayLabel(d);
+  });
+}
 
 function newMealId() {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -37,8 +61,8 @@ export default function Schedule() {
   const [step, setStep] = useState(STEPS.NO_SCHEDULE);
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [currentMealIndexInDay, setCurrentMealIndexInDay] = useState(0);
-  const [days, setDays] = useState(
-    WEEK_DAYS.map((label) => ({
+  const [days, setDays] = useState(() =>
+    getWeekDayLabels().map((label) => ({
       label,
       startTime: "",
       endTime: "",
@@ -90,7 +114,7 @@ export default function Schedule() {
               <h2 className="section-title">Edit Your Schedule</h2>
               <p className="card-text">
                 You haven&apos;t planned your meals for <br />
-                March 9 - March 13
+                {days[0]?.label} - {days[days.length - 1]?.label}
               </p>
               <button
                 className="section-button"
@@ -129,16 +153,16 @@ export default function Schedule() {
                 <button
                   type="button"
                   className="day-arrow"
-                  disabled={currentDayIndex === WEEK_DAYS.length - 1}
+                  disabled={currentDayIndex === days.length - 1}
                   onClick={() =>
                     setCurrentDayIndex((i) =>
-                      Math.min(WEEK_DAYS.length - 1, i + 1)
+                      Math.min(days.length - 1, i + 1)
                     )
                   }
                   aria-label="Next day"
                 >
                   <img 
-                    src={currentDayIndex === WEEK_DAYS.length - 1 ? rightArrowInactive : rightArrowActive} 
+                    src={currentDayIndex === days.length - 1 ? rightArrowInactive : rightArrowActive} 
                     alt="" 
                   />
                 </button>
@@ -407,7 +431,19 @@ export default function Schedule() {
                   className="budget-input-field"
                   placeholder="Enter Amount"
                   value={budget}
-                  onChange={(e) => setBudget(Number(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const newBudget = Number(e.target.value) || 0;
+                    setBudget(newBudget);
+                    // Save budget immediately to localStorage so BudgetCard can show it
+                    try {
+                      const raw = window.localStorage.getItem(STORAGE_KEY);
+                      const parsed = raw ? JSON.parse(raw) : {};
+                      parsed.budget = newBudget;
+                      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+                    } catch {
+                      // ignore
+                    }
+                  }}
                 />
               </div>
 
@@ -423,7 +459,18 @@ export default function Schedule() {
                     key={value}
                     type="button"
                     className={`preset-btn ${budget === value ? 'active' : ''}`}
-                    onClick={() => setBudget(value)}
+                    onClick={() => {
+                      setBudget(value);
+                      // Save budget immediately to localStorage so BudgetCard can show it
+                      try {
+                        const raw = window.localStorage.getItem(STORAGE_KEY);
+                        const parsed = raw ? JSON.parse(raw) : {};
+                        parsed.budget = value;
+                        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+                      } catch {
+                        // ignore
+                      }
+                    }}
                   >
                     ${value}
                   </button>
@@ -676,22 +723,31 @@ export default function Schedule() {
                   return (
                     <div key={day.label} className="plan-column">
                       <h3 className="plan-day">{day.label}</h3>
-                      {selectedItems.map((item) => (
-                        <div key={item.id} className="plan-card">
-                          <div className="plan-row">
-                            <span>Meal</span>
-                            <span>{item.name}</span>
+                      {selectedItems.map((item) => {
+                        const subtotal = parseFloat(item.price) || 0;
+                        const tax = subtotal * 0.12;
+                        const total = subtotal + tax;
+                        return (
+                          <div key={item.id} className="plan-card">
+                            <div className="plan-restaurant">{item.restaurant}</div>
+                            <div className="plan-meal-title">{item.name}</div>
+                            <div className="plan-pricing">
+                              <div className="plan-price-row">
+                                <span>Subtotal:</span>
+                                <span>${subtotal.toFixed(2)}</span>
+                              </div>
+                              <div className="plan-price-row">
+                                <span>Taxes:</span>
+                                <span>${tax.toFixed(2)}</span>
+                              </div>
+                              <div className="plan-total">
+                                <span>Total:</span>
+                                <span>${total.toFixed(2)}</span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="plan-row">
-                            <span>Location</span>
-                            <span>{item.restaurant}</span>
-                          </div>
-                          <div className="plan-row">
-                            <span>Price</span>
-                            <span>${Number(item.price).toFixed(2)}</span>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   );
                 })}

@@ -30,6 +30,14 @@ const promotions = [
 function PlannedWeekCard({ plan }) {
   const { days = [], selectedByDay = {}, options = [] } = plan;
 
+  const calculateTax = (subtotal) => {
+    return subtotal * 0.12;
+  };
+
+  const formatPrice = (price) => {
+    return Number(price).toFixed(2);
+  };
+
   return (
     <div className="section-card">
       <h2 className="section-title">Week at a Glance</h2>
@@ -40,23 +48,34 @@ function PlannedWeekCard({ plan }) {
           const items = options.filter((opt) => ids.includes(opt.id));
           return (
             <div key={day.label} className="plan-column">
-              <h3 className="plan-day">{day.label}</h3>
-              {items.map((item) => (
-                <div key={item.id} className="plan-card">
-                  <div className="plan-row">
-                    <span>Meal</span>
-                    <span>{item.name}</span>
+              {items.map((item) => {
+                const subtotal = item.price;
+                const tax = calculateTax(subtotal);
+                const total = subtotal + tax;
+                return (
+                  <div key={item.id} className="plan-card">
+                    <div className="plan-card-header">
+                      <span className="plan-date-time">{day.label} - Time TBD</span>
+                      <span className="plan-restaurant">{item.restaurant}</span>
+                    </div>
+                    <div className="plan-meal-title">{item.name}</div>
+                    <div className="plan-pricing">
+                      <div className="plan-price-row">
+                        <span>Subtotal:</span>
+                        <span>${formatPrice(subtotal)}</span>
+                      </div>
+                      <div className="plan-price-row">
+                        <span>Tax:</span>
+                        <span>${formatPrice(tax)}</span>
+                      </div>
+                      <div className="plan-price-row plan-total">
+                        <span>Total:</span>
+                        <span>${formatPrice(total)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="plan-row">
-                    <span>Location</span>
-                    <span>{item.restaurant}</span>
-                  </div>
-                  <div className="plan-row">
-                    <span>Price</span>
-                    <span>${Number(item.price).toFixed(2)}</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           );
         })}

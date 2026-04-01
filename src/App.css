@@ -219,12 +219,59 @@ body {
 }
 
 /* BUDGET BAR */
-.budget-bar {
+.budget-bar-container {
   height: 20px;
   background-color: #e8e8e8;
   border-radius: 10px;
   margin-bottom: 12px;
   overflow: hidden;
+}
+
+.budget-bar {
+  height: 100%;
+  background-color: #4CAF50;
+  border-radius: 10px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.budget-bar.over-budget {
+  background-color: #f44336;
+}
+
+.budget-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.budget-spend,
+.budget-remaining {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.budget-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.budget-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.budget-amount.over-budget-text {
+  color: #f44336;
+}
+
+.budget-status {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
 }
  
 /* FLOW / SCHEDULE SCREENS */
@@ -391,21 +438,78 @@ body {
  
 .plan-day {
   font-size: 12px;
-  color: #e74c3c;
-  margin-bottom: 4px;
+  color: #A7192F;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
- 
+
 .plan-card {
-  background-color: #e4e4e4;
-  border-radius: 6px;
-  padding: 8px;
+  background-color: #e8e8e8;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
 }
- 
-.plan-row {
+
+.plan-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d0d0d0;
+  padding-bottom: 8px;
+}
+
+.plan-date-time {
+  font-weight: 500;
+  font-size: 12px;
+  color: #333;
+}
+
+.plan-restaurant {
+  font-weight: 600;
+  color: #A7192F;
+  font-size: 12px;
+}
+
+.plan-meal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin: 8px 0;
+}
+
+.plan-pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plan-price-row {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
   color: #555;
+}
+
+.plan-price-row span:first-child {
+  font-weight: 400;
+}
+
+.plan-price-row span:last-child {
+  font-weight: 500;
+  text-align: right;
+}
+
+.plan-total {
+  font-weight: 600;
+  color: #A7192F;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #d0d0d0;
+  padding-top: 4px;
+  margin-top: 4px;
 }
  
 /* DAY NAVIGATION */
