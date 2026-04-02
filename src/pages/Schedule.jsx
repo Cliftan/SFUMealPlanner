@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
-import menu from "../data/menu.json";
+import menu from "../menus.json";
 import leftArrowActive from "../Resources/Icons/leftarrow_active.png";
 import leftArrowInactive from "../Resources/Icons/leftarrow_inactive.png";
 import rightArrowActive from "../Resources/Icons/rightarrow_active.png";
@@ -12,6 +12,7 @@ import progressBar1 from "../Resources/Icons/ProgressBar_1.png";
 import progressBar2 from "../Resources/Icons/ProgressBar_2.png";
 import progressBar3 from "../Resources/Icons/ProgressBar_3.png";
 import progressBar4 from "../Resources/Icons/ProgressBar_4.png";
+import { ScheduleGenerate } from "../scheduleGen";
 
 const STEPS = {
   NO_SCHEDULE: "noSchedule",
@@ -23,6 +24,8 @@ const STEPS = {
 };
 
 const STORAGE_KEY = "sfu-meal-plan-week";
+
+const CAMPUS = ["Burnaby", "Surrey"];
 
 function getThisWeekMonday(today = new Date()) {
   const dayOfWeek = today.getDay();
@@ -64,9 +67,7 @@ export default function Schedule() {
   const [days, setDays] = useState(() =>
     getWeekDayLabels().map((label) => ({
       label,
-      startTime: "",
-      endTime: "",
-      campus: "Burnaby Campus",
+      campus: "Burnaby",
       skipDay: false,
       meals: [
         {
@@ -100,19 +101,26 @@ export default function Schedule() {
   const currentDay = days[currentDayIndex];
 
   // Simple mock meal plan generator
-  const generateMealPlan = async ({ schedule, budget, preferences, menu }) => {
-    const campus = menu.campuses?.[0];
-    if (!campus) return { items: [] };
-    return {
-      source: "mock",
-      items: campus.restaurants.flatMap((r) =>
-        r.items.slice(0, 3).map((item) => ({
-          ...item,
-          restaurant: r.name,
-          campus: campus.name,
-        }))
-      ),
-    };
+  const generateMealPlan = async ({ schedule, budget, used, menu }) => {
+
+    const result = await ScheduleGenerate(schedule, budget, used, menu)
+
+    return result
+
+
+    // const campus = menu.campuses?.[0];
+    // console.log(campus);
+    // if (!campus) return { items: [] };
+    // return {
+    //   source: "mock",
+    //   items: campus.restaurants.flatMap((r) =>
+    //     r.items.slice(0, 3).map((item) => ({
+    //       ...item,
+    //       restaurant: r.name,
+    //       campus: campus.name,
+    //     }))
+    //   ),
+    // };
   };
 
   return (
@@ -199,9 +207,9 @@ export default function Schedule() {
                     }
                     disabled={currentDay.skipDay}
                   >
-                    {menu.campuses.map((c) => (
-                      <option key={c.id} value={c.name}>
-                        {c.name}
+                    {CAMPUS.map((e, i) => (
+                      <option key={i} value={e}>
+                        {e}
                       </option>
                     ))}
                   </select>
@@ -511,13 +519,13 @@ export default function Schedule() {
                   onClick={async () => {
                     setStep(STEPS.GENERATING);
                     setIsLoading(true);
-                    const result = await generateMealPlan({
+                    let result = await generateMealPlan({
                       schedule: days,
                       budget,
-                      preferences: {},
+                      used: 0,
                       menu,
                     });
-                    const items = result.items || [];
+                    const items = await JSON.parse(result) || [];
                     setOptions(items);
                     setCurrentDayIndex(0);
                     setCurrentMealIndexInDay(0);
@@ -626,7 +634,7 @@ export default function Schedule() {
                   >
                     <div className="option-image" />
                     <div className="option-content">
-                      <h3 className="option-title">{item.name}</h3>
+                      <h3 className="option-title">{item.meal}</h3>
                       <p className="option-meta">
                         {item.restaurant} · ${Number(item.price).toFixed(2)}
                       </p>
