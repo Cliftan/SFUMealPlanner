@@ -38,27 +38,50 @@ function PlannedWeekCard({ plan }) {
     return Number(price).toFixed(2);
   };
 
+  // Convert time format from 24h to 12h format
+  const formatTime = (time24h) => {
+    if (!time24h) return "TBD";
+    const [hours, minutes] = time24h.split(":");
+    const hour = parseInt(hours, 10);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes}${ampm}`;
+  };
+
   return (
     <div className="section-card">
       <h2 className="section-title">Week at a Glance</h2>
       <div className="plan-grid">
         {days.map((day) => {
           const ids = selectedByDay[day.label] || [];
-          if (!ids.length) return null;
-          const items = options.filter((opt) => ids.includes(opt.id));
+          if (!ids.length || day.skipDay) return null;
+          
           return (
             <div key={day.label} className="plan-column">
-              {items.map((item) => {
+              {day.meals.map((meal, mealIdx) => {
+                const selectedItemId = ids[mealIdx];
+                const item = options.find((opt) => opt.id === selectedItemId);
+                
+                if (!item) return null;
+
                 const subtotal = item.price;
                 const tax = calculateTax(subtotal);
                 const total = subtotal + tax;
+
                 return (
                   <div key={item.id} className="plan-card">
                     <div className="plan-card-header">
-                      <span className="plan-date-time">{day.label} - Time TBD</span>
-                      <span className="plan-restaurant">{item.restaurant}</span>
+                      <div className="plan-date-time">
+                        {day.label} - {formatTime(meal.mealStartTime)}
+                      </div>
+                      {meal.mealDurationMinutes && (
+                        <div className="plan-duration">
+                          {meal.mealDurationMinutes} min
+                        </div>
+                      )}
                     </div>
-                    <div className="plan-meal-title">{item.name}</div>
+                    <div className="plan-restaurant">{item.restaurant}</div>
+                    <div className="plan-meal-title">{item.meal || item.name}</div>
                     <div className="plan-pricing">
                       <div className="plan-price-row">
                         <span>Subtotal:</span>

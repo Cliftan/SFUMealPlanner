@@ -12,9 +12,42 @@ function PreferenceEditor({ label, storageKey, initial }) {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
+  // Listen for changes to localStorage (from chatbot)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        setItems(JSON.parse(stored));
+      }
+    };
+
+    // Listen for storage events (changes in other tabs/windows)
+    window.addEventListener("storage", handleStorageChange);
+
+    // Also set up a custom event listener for changes within the same tab
+    const handleCustomStorageChange = (e) => {
+      if (e.detail.key === storageKey) {
+        setItems(e.detail.value);
+      }
+    };
+    window.addEventListener("customStorageChange", handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("customStorageChange", handleCustomStorageChange);
+    };
+  }, [storageKey]);
+
   // Save to localStorage whenever items change
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(items));
+    
+    // Dispatch custom event to notify other components in the same tab
+    window.dispatchEvent(
+      new CustomEvent("customStorageChange", {
+        detail: { key: storageKey, value: items }
+      })
+    );
   }, [items, storageKey]);
 
   const handleRemoveItem = (item) => {
@@ -28,7 +61,10 @@ function PreferenceEditor({ label, storageKey, initial }) {
   const handleAddItem = (e) => {
     e.preventDefault();
     if (!input.trim() || items.includes(input.trim())) return;
-    setItems((prev) => [...prev, input.trim()]);
+    setItems((prev) => {
+      const filtered = prev.filter(item => item !== "+ Custom");
+      return [...filtered, input.trim(), "+ Custom"];
+    });
     setInput("");
   };
 
