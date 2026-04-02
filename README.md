@@ -59,16 +59,6 @@ Open the printed `http://localhost:5173` URL in your browser.
    npm run dev
    ```
 
-3. The key is read in `src/services/geminiClient.js` as `import.meta.env.VITE_GEMINI_API_KEY`.  
-   - When the key is missing or Gemini fails, the app falls back to using `src/data/menu.json` directly.
-   - When the key is present and the model returns JSON of the form:
-
-     ```json
-     { "items": [ { "id": "...", "name": "...", "price": 0, "restaurant": "...", "campus": "..." } ] }
-     ```
-
-     the planner will use those items as the meal options in the Schedule flow.
-
 ### Menu data
 
 - Restaurant and menu information lives in `src/data/menu.json`.
