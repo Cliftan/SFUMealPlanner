@@ -44,53 +44,5 @@ npm run dev
 ```
 
 Open the printed `http://localhost:5173` URL in your browser.
-
-### Gemini setup
-
-1. Create `.env.local` in the project root (already added to this repo) and set:
-
-   ```bash
-   VITE_GEMINI_API_KEY=your_real_gemini_key_here
-   ```
-
-2. Restart the dev server after changing env values:
-
-   ```bash
-   npm run dev
-   ```
-
-### Menu data
-
-- Restaurant and menu information lives in `src/data/menu.json`.
-- Structure:
-
-  ```json
-  {
-    "campuses": [
-      {
-        "id": "burnaby",
-        "name": "Burnaby Campus",
-        "restaurants": [
-          {
-            "id": "tripleos",
-            "name": "Triple-O's",
-            "category": "Burgers",
-            "items": [
-              {
-                "id": "taco-burger-combo",
-                "name": "Taco Burger Combo",
-                "price": 13.49,
-                "calories": 850,
-                "dietTags": ["beef"],
-                "description": "Burger with fries and a drink."
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-  ```
-
 Add or update campuses, restaurants, and items here; both the Restaurants page and the planner use this file.
 
