@@ -76,7 +76,7 @@ export default function Schedule() {
           mealDurationMinutes: "",
         },
       ],
-    }))
+    })),
   );
   const [budget, setBudget] = useState(20);
   const [options, setOptions] = useState([]);
@@ -102,11 +102,9 @@ export default function Schedule() {
 
   // Simple mock meal plan generator
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
-
     const result = await ScheduleGenerate(schedule, budget, used, menu);
 
     return result;
-
 
     // const campus = menu.campuses?.[0];
     // console.log(campus);
@@ -151,7 +149,8 @@ export default function Schedule() {
             <div className="flow-card">
               <h2 className="section-title">Schedule</h2>
               <p className="flow-subtitle">
-                Specify when you want your meal breaks to start, on which campus, and how long they will last.
+                Specify when you want your meal breaks to start, on which
+                campus, and how long they will last.
               </p>
 
               {/* Day Navigation */}
@@ -160,14 +159,16 @@ export default function Schedule() {
                   type="button"
                   className="day-arrow"
                   disabled={currentDayIndex === 0}
-                  onClick={() =>
-                    setCurrentDayIndex((i) => Math.max(0, i - 1))
-                  }
+                  onClick={() => setCurrentDayIndex((i) => Math.max(0, i - 1))}
                   aria-label="Previous day"
                 >
-                  <img 
-                    src={currentDayIndex === 0 ? leftArrowInactive : leftArrowActive} 
-                    alt="" 
+                  <img
+                    src={
+                      currentDayIndex === 0
+                        ? leftArrowInactive
+                        : leftArrowActive
+                    }
+                    alt=""
                   />
                 </button>
                 <span className="day-label">{currentDay.label}</span>
@@ -176,15 +177,17 @@ export default function Schedule() {
                   className="day-arrow"
                   disabled={currentDayIndex === days.length - 1}
                   onClick={() =>
-                    setCurrentDayIndex((i) =>
-                      Math.min(days.length - 1, i + 1)
-                    )
+                    setCurrentDayIndex((i) => Math.min(days.length - 1, i + 1))
                   }
                   aria-label="Next day"
                 >
-                  <img 
-                    src={currentDayIndex === days.length - 1 ? rightArrowInactive : rightArrowActive} 
-                    alt="" 
+                  <img
+                    src={
+                      currentDayIndex === days.length - 1
+                        ? rightArrowInactive
+                        : rightArrowActive
+                    }
+                    alt=""
                   />
                 </button>
               </div>
@@ -201,8 +204,8 @@ export default function Schedule() {
                         prev.map((day, idx) =>
                           idx === currentDayIndex
                             ? { ...day, campus: e.target.value }
-                            : day
-                        )
+                            : day,
+                        ),
                       )
                     }
                     disabled={currentDay.skipDay}
@@ -225,8 +228,8 @@ export default function Schedule() {
                           prev.map((day, idx) =>
                             idx === currentDayIndex
                               ? { ...day, skipDay: e.target.checked }
-                              : day
-                          )
+                              : day,
+                          ),
                         )
                       }
                     />
@@ -239,19 +242,24 @@ export default function Schedule() {
                     {currentDay.meals.map((meal, mealIndex) => (
                       <div key={meal.id} className="meal-input-group">
                         <div className="form-field">
-                          <label className="form-label">Meal {mealIndex + 1} Start Time:</label>
+                          <label className="form-label">
+                            Meal {mealIndex + 1} Start Time:
+                          </label>
                           <select
                             className="form-input"
                             value={meal.mealStartTime}
                             onChange={(e) => {
                               const newMeals = [...currentDay.meals];
-                              newMeals[mealIndex] = { ...meal, mealStartTime: e.target.value };
+                              newMeals[mealIndex] = {
+                                ...meal,
+                                mealStartTime: e.target.value,
+                              };
                               setDays((prev) =>
                                 prev.map((day, idx) =>
                                   idx === currentDayIndex
                                     ? { ...day, meals: newMeals }
-                                    : day
-                                )
+                                    : day,
+                                ),
                               );
                             }}
                           >
@@ -284,19 +292,24 @@ export default function Schedule() {
                         </div>
 
                         <div className="form-field">
-                          <label className="form-label">Meal {mealIndex + 1} Duration:</label>
+                          <label className="form-label">
+                            Meal {mealIndex + 1} Duration:
+                          </label>
                           <select
                             className="form-input"
                             value={meal.mealDurationMinutes}
                             onChange={(e) => {
                               const newMeals = [...currentDay.meals];
-                              newMeals[mealIndex] = { ...meal, mealDurationMinutes: e.target.value };
+                              newMeals[mealIndex] = {
+                                ...meal,
+                                mealDurationMinutes: e.target.value,
+                              };
                               setDays((prev) =>
                                 prev.map((day, idx) =>
                                   idx === currentDayIndex
                                     ? { ...day, meals: newMeals }
-                                    : day
-                                )
+                                    : day,
+                                ),
                               );
                             }}
                           >
@@ -315,13 +328,15 @@ export default function Schedule() {
                             type="button"
                             className="remove-meal-button"
                             onClick={() => {
-                              const newMeals = currentDay.meals.filter((_, idx) => idx !== mealIndex);
+                              const newMeals = currentDay.meals.filter(
+                                (_, idx) => idx !== mealIndex,
+                              );
                               setDays((prev) =>
                                 prev.map((day, idx) =>
                                   idx === currentDayIndex
                                     ? { ...day, meals: newMeals }
-                                    : day
-                                )
+                                    : day,
+                                ),
                               );
                             }}
                           >
@@ -351,8 +366,8 @@ export default function Schedule() {
                                         mealDurationMinutes: "",
                                       },
                                     ],
-                                  }
-                            )
+                                  },
+                            ),
                           )
                         }
                       >
@@ -392,36 +407,69 @@ export default function Schedule() {
               <div className="tips-section">
                 <h3 className="tips-title">Tips</h3>
                 <ul className="tips-list">
-                  <li>Try using the app over the weekend to plan out your entire meal schedule for the following week!</li>
-                  <li>If you want to plan multiple meals for one day, simply click Add Additional Meal, and do not change the date.</li>
+                  <li>
+                    Try using the app over the weekend to plan out your entire
+                    meal schedule for the following week!
+                  </li>
+                  <li>
+                    If you want to plan multiple meals for one day, simply click
+                    Add Additional Meal, and do not change the date.
+                  </li>
                 </ul>
               </div>
 
               {/* How-To Section */}
               <div className="howto-section">
-                <h3 
-                  className="howto-title" 
-                  onClick={() => setExpandedHowTo(expandedHowTo === 'main' ? null : 'main')}
+                <h3
+                  className="howto-title"
+                  onClick={() =>
+                    setExpandedHowTo(expandedHowTo === "main" ? null : "main")
+                  }
                 >
                   How-To
-                  <svg 
-                    className={`howto-icon ${expandedHowTo === 'main' ? 'expanded' : ''}`}
-                    width="16" 
-                    height="16" 
+                  <svg
+                    className={`howto-icon ${expandedHowTo === "main" ? "expanded" : ""}`}
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </h3>
-                {expandedHowTo === 'main' && (
+                {expandedHowTo === "main" && (
                   <div className="howto-content">
                     <div className="howto-subsection">
-                      <p>In order for SFU MealMap to offer possible meal options, we will need to know the times that you will be on campus for the week. You will need to fill in all of the dropdown menus.</p>
-                      <p><strong>Step 1:</strong> Select the start and end time of when you will be on campus.</p>
-                      <p><strong>Step 2:</strong> Select the campus you will be at.</p>
-                      <p><strong>Step 3:</strong> Select the estimated start time of when you will want to order a meal and how long you will have to dine.</p>
-                      <p><strong>Step 4:</strong> To add additional meals, click the Add Additional Meal button, and click on the date at the top to choose a different day for the week. Repeat the steps until you have marked all of the different blocks that you will be on campus.</p>
-                      <p><strong>Example:</strong> You have class from 10:30am - 12:20pm on Burnaby Campus, and want to schedule a 45 minute lunch block for 12:30pm. Select the following:</p>
+                      <p>
+                        In order for SFU MealMap to offer possible meal options,
+                        we will need to know the times that you will be on
+                        campus for the week. You will need to fill in all of the
+                        dropdown menus.
+                      </p>
+                      <p>
+                        <strong>Step 1:</strong> Select the start and end time
+                        of when you will be on campus.
+                      </p>
+                      <p>
+                        <strong>Step 2:</strong> Select the campus you will be
+                        at.
+                      </p>
+                      <p>
+                        <strong>Step 3:</strong> Select the estimated start time
+                        of when you will want to order a meal and how long you
+                        will have to dine.
+                      </p>
+                      <p>
+                        <strong>Step 4:</strong> To add additional meals, click
+                        the Add Additional Meal button, and click on the date at
+                        the top to choose a different day for the week. Repeat
+                        the steps until you have marked all of the different
+                        blocks that you will be on campus.
+                      </p>
+                      <p>
+                        <strong>Example:</strong> You have class from 10:30am -
+                        12:20pm on Burnaby Campus, and want to schedule a 45
+                        minute lunch block for 12:30pm. Select the following:
+                      </p>
                       <ul>
                         <li>Start Time: 10:30am</li>
                         <li>End Time: 12:20pm</li>
@@ -440,7 +488,8 @@ export default function Schedule() {
             <div className="flow-card">
               <h2 className="section-title">Budget</h2>
               <p className="flow-subtitle">
-                Please select or enter your weekly budget for how much you would like to spend on:
+                Please select or enter your weekly budget for how much you would
+                like to spend on:
               </p>
 
               {/* Budget Input Row */}
@@ -460,7 +509,10 @@ export default function Schedule() {
                       const raw = window.localStorage.getItem(STORAGE_KEY);
                       const parsed = raw ? JSON.parse(raw) : {};
                       parsed.budget = newBudget;
-                      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+                      window.localStorage.setItem(
+                        STORAGE_KEY,
+                        JSON.stringify(parsed),
+                      );
                     } catch {
                       // ignore
                     }
@@ -479,7 +531,7 @@ export default function Schedule() {
                   <button
                     key={value}
                     type="button"
-                    className={`preset-btn ${budget === value ? 'active' : ''}`}
+                    className={`preset-btn ${budget === value ? "active" : ""}`}
                     onClick={() => {
                       setBudget(value);
                       // Save budget immediately to localStorage so BudgetCard can show it
@@ -487,7 +539,10 @@ export default function Schedule() {
                         const raw = window.localStorage.getItem(STORAGE_KEY);
                         const parsed = raw ? JSON.parse(raw) : {};
                         parsed.budget = value;
-                        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+                        window.localStorage.setItem(
+                          STORAGE_KEY,
+                          JSON.stringify(parsed),
+                        );
                       } catch {
                         // ignore
                       }
@@ -525,7 +580,7 @@ export default function Schedule() {
                       used: 0,
                       menu,
                     });
-                    const items = await JSON.parse(result) || [];
+                    const items = (await JSON.parse(result)) || [];
                     setOptions(items);
                     setCurrentDayIndex(0);
                     setCurrentMealIndexInDay(0);
@@ -542,22 +597,28 @@ export default function Schedule() {
               <div className="tips-section">
                 <h3 className="tips-title">Tips</h3>
                 <ul className="tips-list">
-                  <li>If you do not have an exact budget, just enter an estimate! The system will suggest meals beyond lower prices.</li>
-                  <li>Try experimenting with different budgets, you may discover new menu items.</li>
+                  <li>
+                    If you do not have an exact budget, just enter an estimate!
+                    The system will suggest meals beyond lower prices.
+                  </li>
+                  <li>
+                    Try experimenting with different budgets, you may discover
+                    new menu items.
+                  </li>
                 </ul>
               </div>
 
               {/* How-To Section */}
               <div className="howto-section">
-                <h3 
-                  className="howto-title" 
+                <h3
+                  className="howto-title"
                   onClick={() => setBudgetHowToExpanded(!budgetHowToExpanded)}
                 >
                   How-To
-                  <svg 
-                    className={`howto-icon ${budgetHowToExpanded ? 'expanded' : ''}`}
-                    width="16" 
-                    height="16" 
+                  <svg
+                    className={`howto-icon ${budgetHowToExpanded ? "expanded" : ""}`}
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
@@ -566,8 +627,16 @@ export default function Schedule() {
                 {budgetHowToExpanded && (
                   <div className="howto-content">
                     <div className="howto-subsection">
-                      <p>Enter your ideal budget for the week's meals. This will be used by the system to suggest meals that fit in your price range.</p>
-                      <p>Click the "Enter Amount" box to type in a budget. Alternatively, choose one of the presets using the buttons.</p>
+                      <p>
+                        Enter your ideal budget for the week's meals. This will
+                        be used by the system to suggest meals that fit in your
+                        price range.
+                      </p>
+                      <p>
+                        Click the "Enter Amount" box to type in a budget.
+                        Alternatively, choose one of the presets using the
+                        buttons.
+                      </p>
                     </div>
                   </div>
                 )}
@@ -605,14 +674,16 @@ export default function Schedule() {
               {currentDay.meals.length > 1 && (
                 <div className="flow-row">
                   <span className="flow-label">
-                    Meal {currentMealIndexInDay + 1} of {currentDay.meals.length}
+                    Meal {currentMealIndexInDay + 1} of{" "}
+                    {currentDay.meals.length}
                   </span>
                 </div>
               )}
 
               {options.map((item) => {
                 const selectedForDay = selectedByDay[currentDay.label] || [];
-                const isSelected = selectedForDay[currentMealIndexInDay] === item.id;
+                const isSelected =
+                  selectedForDay[currentMealIndexInDay] === item.id;
                 return (
                   <button
                     key={item.id}
@@ -632,7 +703,6 @@ export default function Schedule() {
                       })
                     }
                   >
-                    <div className="option-image" />
                     <div className="option-content">
                       <h3 className="option-title">{item.meal}</h3>
                       <p className="option-meta">
@@ -665,21 +735,26 @@ export default function Schedule() {
                   className="flow-primary-button"
                   onClick={() => {
                     const currentMeal = currentDay.meals[currentMealIndexInDay];
-                    const selectedForDay = selectedByDay[currentDay.label] || [];
-                    
+                    const selectedForDay =
+                      selectedByDay[currentDay.label] || [];
+
                     if (!selectedForDay[currentMealIndexInDay]) {
                       return; // Don't proceed if meal not selected
                     }
 
-                    const mealsLeftInDay = currentDay.meals.length - currentMealIndexInDay - 1;
-                    
+                    const mealsLeftInDay =
+                      currentDay.meals.length - currentMealIndexInDay - 1;
+
                     if (mealsLeftInDay > 0) {
                       // Move to next meal in same day
                       setCurrentMealIndexInDay(currentMealIndexInDay + 1);
                     } else {
                       // Find next day with scheduled meals (not skipped)
                       let nextDayIndex = currentDayIndex + 1;
-                      while (nextDayIndex < days.length && days[nextDayIndex].skipDay) {
+                      while (
+                        nextDayIndex < days.length &&
+                        days[nextDayIndex].skipDay
+                      ) {
                         nextDayIndex++;
                       }
 
@@ -699,15 +774,15 @@ export default function Schedule() {
               </div>
 
               <div className="flow-howto">
-                <h3 
-                  className="howto-title" 
+                <h3
+                  className="howto-title"
                   onClick={() => setOptionsHowToExpanded(!optionsHowToExpanded)}
                 >
                   How-To
-                  <svg 
-                    className={`howto-icon ${optionsHowToExpanded ? 'expanded' : ''}`}
-                    width="16" 
-                    height="16" 
+                  <svg
+                    className={`howto-icon ${optionsHowToExpanded ? "expanded" : ""}`}
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                   >
                     <polyline points="6 9 12 15 18 9"></polyline>
@@ -716,9 +791,22 @@ export default function Schedule() {
                 {optionsHowToExpanded && (
                   <div className="howto-content">
                     <div className="howto-subsection">
-                      <p>Choose your preferred meal for each meal block. You will receive a notification at the time of the meal showing your choice. If you notice any price discrepancies when ordering, report menu updates using the Chat function.</p>
-                      <p><strong>Step 1:</strong> Select one of the suggested meals for the time and date specified at the top. Tap on a meal to select it. Use the filter button at the top right to filter through your options.</p>
-                      <p><strong>Step 2:</strong> Repeat Step 1, until all meals are filled out and press the confirm button.</p>
+                      <p>
+                        Choose your preferred meal for each meal block. You will
+                        receive a notification at the time of the meal showing
+                        your choice. If you notice any price discrepancies when
+                        ordering, report menu updates using the Chat function.
+                      </p>
+                      <p>
+                        <strong>Step 1:</strong> Select one of the suggested
+                        meals for the time and date specified at the top. Tap on
+                        a meal to select it. Use the filter button at the top
+                        right to filter through your options.
+                      </p>
+                      <p>
+                        <strong>Step 2:</strong> Repeat Step 1, until all meals
+                        are filled out and press the confirm button.
+                      </p>
                     </div>
                   </div>
                 )}
@@ -743,8 +831,10 @@ export default function Schedule() {
                       <h3 className="plan-day">{day.label}</h3>
                       {day.meals.map((meal, mealIdx) => {
                         const selectedItemId = selectedIds[mealIdx];
-                        const item = options.find((opt) => opt.id === selectedItemId);
-                        
+                        const item = options.find(
+                          (opt) => opt.id === selectedItemId,
+                        );
+
                         if (!item) return null;
 
                         const subtotal = parseFloat(item.price) || 0;
@@ -773,8 +863,12 @@ export default function Schedule() {
                                 </div>
                               )}
                             </div>
-                            <div className="plan-restaurant">{item.restaurant}</div>
-                            <div className="plan-meal-title">{item.meal || item.name}</div>
+                            <div className="plan-restaurant">
+                              {item.restaurant}
+                            </div>
+                            <div className="plan-meal-title">
+                              {item.meal || item.name}
+                            </div>
                             <div className="plan-pricing">
                               <div className="plan-price-row">
                                 <span>Subtotal:</span>
@@ -823,7 +917,7 @@ export default function Schedule() {
                     try {
                       window.localStorage.setItem(
                         STORAGE_KEY,
-                        JSON.stringify(payload)
+                        JSON.stringify(payload),
                       );
                     } catch {
                       // ignore
