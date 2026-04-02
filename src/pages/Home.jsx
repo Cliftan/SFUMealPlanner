@@ -58,7 +58,7 @@ function PlannedWeekCard({ plan }) {
                       <span className="plan-date-time">{day.label} - Time TBD</span>
                       <span className="plan-restaurant">{item.restaurant}</span>
                     </div>
-                    <div className="plan-meal-title">{item.name}</div>
+                    <div className="plan-meal-title">{item.meal}</div>
                     <div className="plan-pricing">
                       <div className="plan-price-row">
                         <span>Subtotal:</span>

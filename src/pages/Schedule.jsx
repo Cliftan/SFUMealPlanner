@@ -103,9 +103,9 @@ export default function Schedule() {
   // Simple mock meal plan generator
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
 
-    const result = await ScheduleGenerate(schedule, budget, used, menu)
+    const result = await ScheduleGenerate(schedule, budget, used, menu);
 
-    return result
+    return result;
 
 
     // const campus = menu.campuses?.[0];
