@@ -16,6 +16,7 @@ export default function BudgetCard() {
           setTotalSpend(0);
           return;
         }
+
         const parsed = JSON.parse(raw);
         setBudget(parsed.budget || 0);
 
@@ -25,9 +26,10 @@ export default function BudgetCard() {
         Object.keys(selectedByDay).forEach((dayLabel) => {
           const ids = selectedByDay[dayLabel] || [];
           ids.forEach((id) => {
-            const match = options.find((opt) => opt.id === id);
+            const match = allItems.find((opt) => opt.id === id);
             if (match) {
-              selectedItems.push(match);
+              const subtotal = match.price || 0;
+              spend += subtotal * 1.12;
             }
           });
         });
@@ -39,7 +41,6 @@ export default function BudgetCard() {
       }
     };
 
-    // Load data initially
     loadBudgetData();
 
     // Listen for storage changes from same tab
@@ -85,7 +86,9 @@ export default function BudgetCard() {
               <span className="budget-label">
                 {isOverBudget ? "Over Budget:" : "Remaining:"}
               </span>
-              <span className={`budget-amount ${isOverBudget ? "over-budget-text" : ""}`}>
+              <span
+                className={`budget-amount ${isOverBudget ? "over-budget-text" : ""}`}
+              >
                 ${Math.abs(remainingBudget).toFixed(2)}
               </span>
             </div>

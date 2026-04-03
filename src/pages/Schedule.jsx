@@ -100,25 +100,15 @@ export default function Schedule() {
 
   const currentDay = days[currentDayIndex];
 
-  // Simple mock meal plan generator
+  // Safe accessor — always returns an array even if options is misaligned
+  const getOptionsForDay = (dayIndex) => {
+    const dayOptions = options[dayIndex];
+    return Array.isArray(dayOptions) ? dayOptions : [];
+  };
+
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
     const result = await ScheduleGenerate(schedule, budget, used, menu);
-
     return result;
-
-    // const campus = menu.campuses?.[0];
-    // console.log(campus);
-    // if (!campus) return { items: [] };
-    // return {
-    //   source: "mock",
-    //   items: campus.restaurants.flatMap((r) =>
-    //     r.items.slice(0, 3).map((item) => ({
-    //       ...item,
-    //       restaurant: r.name,
-    //       campus: campus.name,
-    //     }))
-    //   ),
-    // };
   };
 
   return (
@@ -504,7 +494,6 @@ export default function Schedule() {
                   onChange={(e) => {
                     const newBudget = Number(e.target.value) || 0;
                     setBudget(newBudget);
-                    // Save budget immediately to localStorage so BudgetCard can show it
                     try {
                       const raw = window.localStorage.getItem(STORAGE_KEY);
                       const parsed = raw ? JSON.parse(raw) : {};
@@ -534,7 +523,6 @@ export default function Schedule() {
                     className={`preset-btn ${budget === value ? "active" : ""}`}
                     onClick={() => {
                       setBudget(value);
-                      // Save budget immediately to localStorage so BudgetCard can show it
                       try {
                         const raw = window.localStorage.getItem(STORAGE_KEY);
                         const parsed = raw ? JSON.parse(raw) : {};
@@ -574,15 +562,37 @@ export default function Schedule() {
                   onClick={async () => {
                     setStep(STEPS.GENERATING);
                     setIsLoading(true);
-                    let result = await generateMealPlan({
-                      schedule: days,
-                      budget,
-                      used: 0,
-                      menu,
-                    });
-                    const items = (await JSON.parse(result)) || [];
+
+                    let items = days.map(() => []); // default: empty array per day
+                    try {
+                      const result = await generateMealPlan({
+                        schedule: days,
+                        budget,
+                        used: 0,
+                        menu,
+                      });
+                      const parsed = JSON.parse(result);
+                      if (Array.isArray(parsed)) {
+                        // Map parsed entries back onto days by index.
+                        // If the AI returned fewer entries than days (the original bug),
+                        // the missing indices fall back to [].
+                        items = days.map((_, i) => {
+                          const entry = parsed[i];
+                          return Array.isArray(entry) ? entry : [];
+                        });
+                      }
+                    } catch (err) {
+                      console.error("Failed to parse meal plan:", err);
+                      // items already defaulted to empty arrays above
+                    }
+
                     setOptions(items);
-                    setCurrentDayIndex(0);
+
+                    // Start on the first day that isn't skipped and has options
+                    const firstActiveDay = days.findIndex(
+                      (d, i) => !d.skipDay && items[i]?.length > 0,
+                    );
+                    setCurrentDayIndex(firstActiveDay >= 0 ? firstActiveDay : 0);
                     setCurrentMealIndexInDay(0);
                     setIsLoading(false);
                     setStep(STEPS.OPTIONS);
@@ -734,11 +744,12 @@ export default function Schedule() {
                   type="button"
                   className="flow-primary-button"
                   onClick={() => {
-                    const currentMeal = currentDay.meals[currentMealIndexInDay];
                     const selectedForDay =
                       selectedByDay[currentDay.label] || [];
 
-                    if (!selectedForDay[currentMealIndexInDay]) {
+                    // If no options exist for this day, skip it automatically
+                    const dayHasOptions = getOptionsForDay(currentDayIndex).length > 0;
+                    if (dayHasOptions && !selectedForDay[currentMealIndexInDay]) {
                       return; // Don't proceed if meal not selected
                     }
 
@@ -749,21 +760,20 @@ export default function Schedule() {
                       // Move to next meal in same day
                       setCurrentMealIndexInDay(currentMealIndexInDay + 1);
                     } else {
-                      // Find next day with scheduled meals (not skipped)
+                      // Find next non-skipped day with options
                       let nextDayIndex = currentDayIndex + 1;
                       while (
                         nextDayIndex < days.length &&
-                        days[nextDayIndex].skipDay
+                        (days[nextDayIndex].skipDay ||
+                          getOptionsForDay(nextDayIndex).length === 0)
                       ) {
                         nextDayIndex++;
                       }
 
                       if (nextDayIndex < days.length) {
-                        // More days to schedule
                         setCurrentDayIndex(nextDayIndex);
                         setCurrentMealIndexInDay(0);
                       } else {
-                        // All days done, go to confirm
                         setStep(STEPS.CONFIRM);
                       }
                     }
@@ -841,7 +851,6 @@ export default function Schedule() {
                         const tax = subtotal * 0.12;
                         const total = subtotal + tax;
 
-                        // Convert time format from 24h to 12h format
                         const formatTime = (time24h) => {
                           if (!time24h) return "TBD";
                           const [hours, minutes] = time24h.split(":");
