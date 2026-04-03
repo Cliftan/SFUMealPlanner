@@ -52,7 +52,7 @@ function PlannedWeekCard({ plan }) {
     <div className="section-card">
       <h2 className="section-title">Week at a Glance</h2>
       <div className="plan-grid">
-        {days.map((day) => {
+        {days.map((day, i) => {
           const ids = selectedByDay[day.label] || [];
           if (!ids.length || day.skipDay) return null;
           
@@ -60,7 +60,7 @@ function PlannedWeekCard({ plan }) {
             <div key={day.label} className="plan-column">
               {day.meals.map((meal, mealIdx) => {
                 const selectedItemId = ids[mealIdx];
-                const item = options.find((opt) => opt.id === selectedItemId);
+                const item = options[i].find((opt) => opt.id === selectedItemId);
                 
                 if (!item) return null;
 

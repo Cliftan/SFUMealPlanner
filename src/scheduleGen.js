@@ -8,14 +8,15 @@ export async function ScheduleGenerate(schedule, budget, amount, menu) {
         Here is the users budget: ${budget}
         Amount used = ${amount} 
 
-        Please choose 3 to 4 menu options from the menu list and return it as json. 
+        Please choose 3 to 4 menu options from the menu list for each day.
+        Only return menu options for the numbers of days where skipDay is true.
         Things to consider while choosing:
         - campus must match
         - Amount used must be under or equal to budget. 
         - When chosing add the price of each item to amount used and see if it is over.
 
         How to return:
-        - Return a list of objects in plain text format.
+        - Return a list of lists of object in plain text format.
         - Add nothing new and only choose from the list provided. Format must be the same as the one in the list.
         - Do not add \"JSON\" or \`\`\` at the start or end.
     `;
