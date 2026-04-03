@@ -22,9 +22,8 @@ export default function BudgetCard() {
 
         const { options = [], selectedByDay = {}, days = [] } = parsed;
 
-        // options is an array of arrays (one per day), so flatten it into
-        // a single lookup array before searching by id
-        const allItems = options.flat();
+        // options shape is [day][meal][item] — flatten 2 levels to get all items
+        const allItems = options.flat(2);
 
         let spend = 0;
         days.forEach((day) => {

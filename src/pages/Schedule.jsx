@@ -100,10 +100,20 @@ export default function Schedule() {
 
   const currentDay = days[currentDayIndex];
 
-  // Safe accessor — always returns an array even if options is misaligned
-  const getOptionsForDay = (dayIndex) => {
+  // Safe accessor — returns options for a specific day+meal slot.
+  // options shape: [ day0: [ meal0: [...items], meal1: [...items] ], day1: [], ... ]
+  const getOptionsForMeal = (dayIndex, mealIndex) => {
     const dayOptions = options[dayIndex];
-    return Array.isArray(dayOptions) ? dayOptions : [];
+    if (!Array.isArray(dayOptions)) return [];
+    const mealOptions = dayOptions[mealIndex];
+    return Array.isArray(mealOptions) ? mealOptions : [];
+  };
+
+  // Returns true if a day has at least one meal slot with options
+  const dayHasAnyOptions = (dayIndex) => {
+    const dayOptions = options[dayIndex];
+    if (!Array.isArray(dayOptions)) return false;
+    return dayOptions.some((slot) => Array.isArray(slot) && slot.length > 0);
   };
 
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
@@ -574,12 +584,16 @@ export default function Schedule() {
                       });
                       const parsed = JSON.parse(result);
                       if (Array.isArray(parsed)) {
-                        // Map parsed entries back onto days by index.
-                        // If the AI returned fewer entries than days (the original bug),
-                        // the missing indices fall back to [].
-                        items = days.map((_, i) => {
-                          const entry = parsed[i];
-                          return Array.isArray(entry) ? entry : [];
+                        // Normalise to: array of days, each day is array of meal slots,
+                        // each meal slot is array of option objects.
+                        items = days.map((day, i) => {
+                          const dayEntry = parsed[i];
+                          if (!Array.isArray(dayEntry) || dayEntry.length === 0) return [];
+                          // Each element of dayEntry should be a meal-slot array
+                          return day.meals.map((_, mealIdx) => {
+                            const slotEntry = dayEntry[mealIdx];
+                            return Array.isArray(slotEntry) ? slotEntry : [];
+                          });
                         });
                       }
                     } catch (err) {
@@ -591,7 +605,7 @@ export default function Schedule() {
 
                     // Start on the first day that isn't skipped and has options
                     const firstActiveDay = days.findIndex(
-                      (d, i) => !d.skipDay && items[i]?.length > 0,
+                      (d, i) => !d.skipDay && Array.isArray(items[i]) && items[i].length > 0,
                     );
                     setCurrentDayIndex(firstActiveDay >= 0 ? firstActiveDay : 0);
                     setCurrentMealIndexInDay(0);
@@ -691,10 +705,10 @@ export default function Schedule() {
                 </div>
               )}
 
-              {getOptionsForDay(currentDayIndex).length === 0 ? (
-                <p className="flow-subtitle">No meal options available for this day.</p>
+              {getOptionsForMeal(currentDayIndex, currentMealIndexInDay).length === 0 ? (
+                <p className="flow-subtitle">No meal options available for this meal.</p>
               ) : (
-                getOptionsForDay(currentDayIndex).map((item) => {
+                getOptionsForMeal(currentDayIndex, currentMealIndexInDay).map((item) => {
                   const selectedForDay = selectedByDay[currentDay.label] || [];
                   const isSelected =
                     selectedForDay[currentMealIndexInDay] === item.id;
@@ -753,8 +767,8 @@ export default function Schedule() {
                       selectedByDay[currentDay.label] || [];
 
                     // If no options exist for this day, skip it automatically
-                    const dayHasOptions = getOptionsForDay(currentDayIndex).length > 0;
-                    if (dayHasOptions && !selectedForDay[currentMealIndexInDay]) {
+                    const mealHasOptions = getOptionsForMeal(currentDayIndex, currentMealIndexInDay).length > 0;
+                    if (mealHasOptions && !selectedForDay[currentMealIndexInDay]) {
                       return; // Don't proceed if meal not selected
                     }
 
@@ -770,7 +784,7 @@ export default function Schedule() {
                       while (
                         nextDayIndex < days.length &&
                         (days[nextDayIndex].skipDay ||
-                          getOptionsForDay(nextDayIndex).length === 0)
+                          !dayHasAnyOptions(nextDayIndex))
                       ) {
                         nextDayIndex++;
                       }
@@ -846,7 +860,7 @@ export default function Schedule() {
                       <h3 className="plan-day">{day.label}</h3>
                       {day.meals.map((meal, mealIdx) => {
                         const selectedItemId = selectedIds[mealIdx];
-                        const item = getOptionsForDay(i).find(
+                        const item = getOptionsForMeal(i, mealIdx).find(
                           (opt) => opt.id === selectedItemId,
                         );
 

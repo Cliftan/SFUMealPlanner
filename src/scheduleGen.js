@@ -1,13 +1,19 @@
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 export async function ScheduleGenerate(schedule, budget, amount, menu) {
-  // Build a day-by-day instruction so the AI can't miscount
+  // Build meal-slot-level instructions so the AI generates unique options per meal
   const dayInstructions = schedule
     .map((day, i) => {
       if (day.skipDay) {
         return `Day ${i} (${day.label}): skipDay=true → return []`;
       }
-      return `Day ${i} (${day.label}): campus=${day.campus}, skipDay=false → return 3-4 meal options from campus "${day.campus}"`;
+      const mealSlots = day.meals
+        .map(
+          (meal, j) =>
+            `  Meal slot ${j} (starts ${meal.mealStartTime || "TBD"}, ${meal.mealDurationMinutes || "?"}min): return 3-4 DIFFERENT options from campus "${day.campus}"`,
+        )
+        .join("\n");
+      return `Day ${i} (${day.label}): campus=${day.campus}, skipDay=false, has ${day.meals.length} meal slot(s):\n${mealSlots}`;
     })
     .join("\n");
 
@@ -22,18 +28,26 @@ ${dayInstructions}
 
 BUDGET: $${budget} total (amount already used: $${amount})
 
-RULES:
-1. Your response must be a JSON array with EXACTLY ${schedule.length} elements.
-2. Element at index 0 = Day 0, index 1 = Day 1, etc. Do NOT skip indices.
-3. For days marked "return []", the element must be an empty array [].
-4. For other days, the element must be an array of 3-4 meal objects from the menu above.
-5. Only use items whose "campus" field matches the day's campus.
-6. Do not exceed the budget. Track cumulative price as you pick items.
-7. Copy each chosen object exactly as-is from the menu — do not change any fields.
-8. Do not add backticks, the word "json", or any text outside the array.
+OUTPUT SHAPE:
+- The outer array has EXACTLY ${schedule.length} elements (one per day).
+- For a skipped day, the element is [].
+- For an active day, the element is an array of meal-slot arrays — one inner array per meal slot on that day.
+- Each meal-slot array contains 3-4 meal option objects chosen from the menu.
+- Meal slots on the same day MUST have DIFFERENT sets of options — do not repeat the same items across slots.
 
-EXAMPLE of correct output shape for a 3-day schedule where day 1 is skipped:
-[ [...meals...], [], [...meals...] ]
+EXAMPLE for a 2-day schedule where day 0 has 2 meal slots and day 1 is skipped:
+[
+  [ [...3-4 options for day0 meal0...], [...3-4 DIFFERENT options for day0 meal1...] ],
+  []
+]
+
+RULES:
+1. Outer array length = EXACTLY ${schedule.length}.
+2. Active day element length = number of meal slots for that day.
+3. Only use items whose "campus" field matches the day's campus.
+4. Do not exceed the budget across all selections.
+5. Copy each chosen object exactly as-is from the menu — do not change any fields.
+6. Do not add backticks, the word "json", or any text outside the array.
 
 Your response (the array only, nothing else):
 `.trim();
@@ -57,7 +71,6 @@ Your response (the array only, nothing else):
 
     if (data.choices && data.choices.length > 0) {
       let text = data.choices[0].message.content;
-      // Strip any accidental markdown fences the model still adds
       text = text.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
       return text;
     } else {

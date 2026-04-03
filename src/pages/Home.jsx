@@ -30,7 +30,8 @@ function PlannedWeekCard({ plan }) {
   const { days = [], selectedByDay = {}, options = [] } = plan;
 
   // options is an array of arrays (one per day) — flatten before searching
-  const allItems = options.flat();
+  // options shape is [day][meal][item] — flatten 2 levels to get all items
+  const allItems = options.flat(2);
 
   const formatPrice = (price) => Number(price).toFixed(2);
 
