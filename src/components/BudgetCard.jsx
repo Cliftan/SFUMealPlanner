@@ -16,27 +16,20 @@ export default function BudgetCard() {
           setTotalSpend(0);
           return;
         }
-
         const parsed = JSON.parse(raw);
         setBudget(parsed.budget || 0);
 
         // Calculate total spend from selected items
         const selectedItems = [];
-        const { options = [], selectedByDay = {}, days = [] } = parsed;
-        
+        const { options = [], selectedByDay = {} } = parsed;
         Object.keys(selectedByDay).forEach((dayLabel) => {
           const ids = selectedByDay[dayLabel] || [];
-          // Find the day index to access the correct options sub-array
-          const dayIndex = days.findIndex((day) => day.label === dayLabel);
-          
-          if (dayIndex !== -1 && options[dayIndex]) {
-            ids.forEach((id) => {
-              const match = options[dayIndex].find((opt) => opt.id === id);
-              if (match) {
-                selectedItems.push(match);
-              }
-            });
-          }
+          ids.forEach((id) => {
+            const match = options.find((opt) => opt.id === id);
+            if (match) {
+              selectedItems.push(match);
+            }
+          });
         });
 
         const spend = selectedItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
@@ -49,16 +42,18 @@ export default function BudgetCard() {
     // Load data initially
     loadBudgetData();
 
-    // Listen for storage changes
-    const handleStorageChange = (e) => {
-      if (e.key === STORAGE_KEY) {
-        loadBudgetData();
-      }
+    // Listen for storage changes from same tab
+    const handleStorageChange = () => {
+      loadBudgetData();
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    // Listen for both storage event (from other tabs) and custom event (from same tab)
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("meal-plan-updated", handleStorageChange);
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("meal-plan-updated", handleStorageChange);
     };
   }, []);
 
@@ -67,7 +62,7 @@ export default function BudgetCard() {
     return Math.min((totalSpend / budget) * 100, 100);
   }, [totalSpend, budget]);
 
-  const isOverBudget = totalSpend > budget;
+  const isOverBudget = totalSpend > budget && budget > 0;
   const remainingBudget = Math.max(0, budget - totalSpend);
 
   return (
@@ -77,7 +72,7 @@ export default function BudgetCard() {
         <>
           <div className="budget-bar-container">
             <div
-              className={`budget-bar ${isOverBudget ? 'over-budget' : ''}`}
+              className={`budget-bar ${isOverBudget ? "over-budget" : ""}`}
               style={{ width: `${budgetPercentage}%` }}
             />
           </div>
@@ -88,24 +83,22 @@ export default function BudgetCard() {
             </div>
             <div className="budget-remaining">
               <span className="budget-label">
-                {isOverBudget ? 'Over Budget:' : 'Remaining:'}
+                {isOverBudget ? "Over Budget:" : "Remaining:"}
               </span>
-              <span className={`budget-amount ${isOverBudget ? 'over-budget-text' : ''}`}>
+              <span className={`budget-amount ${isOverBudget ? "over-budget-text" : ""}`}>
                 ${Math.abs(remainingBudget).toFixed(2)}
               </span>
             </div>
           </div>
           <p className="card-text budget-status">
             {isOverBudget
-              ? `You're over budget by $${(totalSpend - budget).toFixed(2)}`
+              ? `You're over budget by $${(totalSpend * 1.12 - budget).toFixed(2)}`
               : `$${remainingBudget.toFixed(2)} left to spend this week`
             }
           </p>
         </>
       ) : (
-        <p className="card-text">
-          Create a schedule to set your budget for the week!
-        </p>
+        <p className="card-text">Create a schedule to set your budget for the week!</p>
       )}
     </div>
   );
