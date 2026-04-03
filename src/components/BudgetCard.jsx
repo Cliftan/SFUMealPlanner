@@ -20,11 +20,15 @@ export default function BudgetCard() {
         const parsed = JSON.parse(raw);
         setBudget(parsed.budget || 0);
 
-        // Calculate total spend from selected items
-        const selectedItems = [];
-        const { options = [], selectedByDay = {} } = parsed;
-        Object.keys(selectedByDay).forEach((dayLabel) => {
-          const ids = selectedByDay[dayLabel] || [];
+        const { options = [], selectedByDay = {}, days = [] } = parsed;
+
+        // options is an array of arrays (one per day), so flatten it into
+        // a single lookup array before searching by id
+        const allItems = options.flat();
+
+        let spend = 0;
+        days.forEach((day) => {
+          const ids = selectedByDay[day.label] || [];
           ids.forEach((id) => {
             const match = allItems.find((opt) => opt.id === id);
             if (match) {
@@ -34,7 +38,6 @@ export default function BudgetCard() {
           });
         });
 
-        const spend = selectedItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
         setTotalSpend(spend);
       } catch {
         // ignore
@@ -43,18 +46,15 @@ export default function BudgetCard() {
 
     loadBudgetData();
 
-    // Listen for storage changes from same tab
-    const handleStorageChange = () => {
-      loadBudgetData();
+    const handleStorageChange = (e) => {
+      if (e.key === STORAGE_KEY) {
+        loadBudgetData();
+      }
     };
 
-    // Listen for both storage event (from other tabs) and custom event (from same tab)
     window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("meal-plan-updated", handleStorageChange);
-
     return () => {
       window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("meal-plan-updated", handleStorageChange);
     };
   }, []);
 
@@ -63,7 +63,7 @@ export default function BudgetCard() {
     return Math.min((totalSpend / budget) * 100, 100);
   }, [totalSpend, budget]);
 
-  const isOverBudget = totalSpend > budget && budget > 0;
+  const isOverBudget = totalSpend > budget;
   const remainingBudget = Math.max(0, budget - totalSpend);
 
   return (
@@ -80,7 +80,7 @@ export default function BudgetCard() {
           <div className="budget-info">
             <div className="budget-spend">
               <span className="budget-label">Spent:</span>
-              <span className="budget-amount">${(totalSpend * 1.12).toFixed(2)}</span>
+              <span className="budget-amount">${totalSpend.toFixed(2)}</span>
             </div>
             <div className="budget-remaining">
               <span className="budget-label">
@@ -95,13 +95,14 @@ export default function BudgetCard() {
           </div>
           <p className="card-text budget-status">
             {isOverBudget
-              ? `You're over budget by $${(totalSpend * 1.12 - budget).toFixed(2)}`
-              : `$${remainingBudget.toFixed(2)} left to spend this week`
-            }
+              ? `You're over budget by $${(totalSpend - budget).toFixed(2)}`
+              : `$${remainingBudget.toFixed(2)} left to spend this week`}
           </p>
         </>
       ) : (
-        <p className="card-text">Create a schedule to set your budget for the week!</p>
+        <p className="card-text">
+          Create a schedule to set your budget for the week!
+        </p>
       )}
     </div>
   );

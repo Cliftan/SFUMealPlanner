@@ -108,6 +108,7 @@ export default function Schedule() {
 
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
     const result = await ScheduleGenerate(schedule, budget, used, menu);
+    console.log(result);
     return result;
   };
 
@@ -690,38 +691,42 @@ export default function Schedule() {
                 </div>
               )}
 
-              {options.map((item) => {
-                const selectedForDay = selectedByDay[currentDay.label] || [];
-                const isSelected =
-                  selectedForDay[currentMealIndexInDay] === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={
-                      "option-card option-card-selectable" +
-                      (isSelected ? " option-card-selected" : "")
-                    }
-                    onClick={() =>
-                      setSelectedByDay((prev) => {
-                        const current = [...(prev[currentDay.label] || [])];
-                        current[currentMealIndexInDay] = item.id;
-                        return {
-                          ...prev,
-                          [currentDay.label]: current,
-                        };
-                      })
-                    }
-                  >
-                    <div className="option-content">
-                      <h3 className="option-title">{item.meal}</h3>
-                      <p className="option-meta">
-                        {item.restaurant} · ${Number(item.price).toFixed(2)}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
+              {getOptionsForDay(currentDayIndex).length === 0 ? (
+                <p className="flow-subtitle">No meal options available for this day.</p>
+              ) : (
+                getOptionsForDay(currentDayIndex).map((item) => {
+                  const selectedForDay = selectedByDay[currentDay.label] || [];
+                  const isSelected =
+                    selectedForDay[currentMealIndexInDay] === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={
+                        "option-card option-card-selectable" +
+                        (isSelected ? " option-card-selected" : "")
+                      }
+                      onClick={() =>
+                        setSelectedByDay((prev) => {
+                          const current = [...(prev[currentDay.label] || [])];
+                          current[currentMealIndexInDay] = item.id;
+                          return {
+                            ...prev,
+                            [currentDay.label]: current,
+                          };
+                        })
+                      }
+                    >
+                      <div className="option-content">
+                        <h3 className="option-title">{item.meal}</h3>
+                        <p className="option-meta">
+                          {item.restaurant} · ${Number(item.price).toFixed(2)}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })
+              )}
 
               {/* Step Indicator */}
               <div className="step-indicator">
@@ -832,7 +837,7 @@ export default function Schedule() {
               </p>
 
               <div className="plan-grid">
-                {days.map((day) => {
+                {days.map((day, i) => {
                   const selectedIds = selectedByDay[day.label] || [];
                   if (!selectedIds.length || day.skipDay) return null;
 
@@ -841,7 +846,7 @@ export default function Schedule() {
                       <h3 className="plan-day">{day.label}</h3>
                       {day.meals.map((meal, mealIdx) => {
                         const selectedItemId = selectedIds[mealIdx];
-                        const item = options.find(
+                        const item = getOptionsForDay(i).find(
                           (opt) => opt.id === selectedItemId,
                         );
 

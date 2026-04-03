@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import WeekGlanceCard from "../components/WeekGlanceCard";
 import BudgetCard from "../components/BudgetCard";
 import PromotionCard from "../components/PromotionCard";
 import BottomNav from "../components/BottomNav";
@@ -17,28 +16,24 @@ const promotions = [
     title: "Free Breakfast!",
     location: "Simon Fraser Student Society",
     description: "Come visit us at the SFU SUB for free breakfast!",
-    image: breakfastImage
+    image: breakfastImage,
   },
   {
     title: "BOGO Milk Tea 50% Off",
     location: "Bien Gong's Tea",
     description: "Buy one get one 50% off all Milk Tea every weekdays from 2-5pm!",
-    image: bubbleteaImage
-  }
+    image: bubbleteaImage,
+  },
 ];
 
 function PlannedWeekCard({ plan }) {
   const { days = [], selectedByDay = {}, options = [] } = plan;
 
-  const calculateTax = (subtotal) => {
-    return subtotal * 0.12;
-  };
+  // options is an array of arrays (one per day) — flatten before searching
+  const allItems = options.flat();
 
-  const formatPrice = (price) => {
-    return Number(price).toFixed(2);
-  };
+  const formatPrice = (price) => Number(price).toFixed(2);
 
-  // Convert time format from 24h to 12h format
   const formatTime = (time24h) => {
     if (!time24h) return "TBD";
     const [hours, minutes] = time24h.split(":");
@@ -55,17 +50,17 @@ function PlannedWeekCard({ plan }) {
         {days.map((day) => {
           const ids = selectedByDay[day.label] || [];
           if (!ids.length || day.skipDay) return null;
-          
+
           return (
             <div key={day.label} className="plan-column">
               {day.meals.map((meal, mealIdx) => {
                 const selectedItemId = ids[mealIdx];
-                const item = options.find((opt) => opt.id === selectedItemId);
-                
+                const item = allItems.find((opt) => opt.id === selectedItemId);
+
                 if (!item) return null;
 
                 const subtotal = item.price;
-                const tax = calculateTax(subtotal);
+                const tax = subtotal * 0.12;
                 const total = subtotal + tax;
 
                 return (
