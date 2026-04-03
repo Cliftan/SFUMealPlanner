@@ -16,44 +16,45 @@ export default function BudgetCard() {
           setTotalSpend(0);
           return;
         }
+
         const parsed = JSON.parse(raw);
         setBudget(parsed.budget || 0);
 
-        // Calculate total spend from selected items
-        const selectedItems = [];
-        const { options = [], selectedByDay = {} } = parsed;
+        const { options = [], selectedByDay = {}, days = [] } = parsed;
 
-        Object.keys(selectedByDay).forEach((dayLabel) => {
-          const ids = selectedByDay[dayLabel] || [];
+        // options is an array of arrays (one per day), so flatten it into
+        // a single lookup array before searching by id
+        const allItems = options.flat();
+
+        let spend = 0;
+        days.forEach((day) => {
+          const ids = selectedByDay[day.label] || [];
           ids.forEach((id) => {
-            const match = options.find((opt) => opt.id === id);
+            const match = allItems.find((opt) => opt.id === id);
             if (match) {
-              selectedItems.push(match);
+              const subtotal = match.price || 0;
+              spend += subtotal * 1.12;
             }
           });
         });
 
-        const spend = selectedItems.reduce((sum, item) => sum + (item.price || 0), 0);
         setTotalSpend(spend);
       } catch {
         // ignore
       }
     };
 
-    // Load data initially
     loadBudgetData();
 
-    // Listen for storage changes
     const handleStorageChange = (e) => {
       if (e.key === STORAGE_KEY) {
         loadBudgetData();
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -68,16 +69,14 @@ export default function BudgetCard() {
   return (
     <div className="section-card">
       <h2 className="section-title">Budget</h2>
-
       {budget > 0 ? (
         <>
           <div className="budget-bar-container">
             <div
-              className={`budget-bar ${isOverBudget ? 'over-budget' : ''}`}
+              className={`budget-bar ${isOverBudget ? "over-budget" : ""}`}
               style={{ width: `${budgetPercentage}%` }}
             />
           </div>
-
           <div className="budget-info">
             <div className="budget-spend">
               <span className="budget-label">Spent:</span>
@@ -85,19 +84,19 @@ export default function BudgetCard() {
             </div>
             <div className="budget-remaining">
               <span className="budget-label">
-                {isOverBudget ? 'Over Budget:' : 'Remaining:'}
+                {isOverBudget ? "Over Budget:" : "Remaining:"}
               </span>
-              <span className={`budget-amount ${isOverBudget ? 'over-budget-text' : ''}`}>
+              <span
+                className={`budget-amount ${isOverBudget ? "over-budget-text" : ""}`}
+              >
                 ${Math.abs(remainingBudget).toFixed(2)}
               </span>
             </div>
           </div>
-
           <p className="card-text budget-status">
             {isOverBudget
               ? `You're over budget by $${(totalSpend - budget).toFixed(2)}`
-              : `$${remainingBudget.toFixed(2)} left to spend this week`
-            }
+              : `$${remainingBudget.toFixed(2)} left to spend this week`}
           </p>
         </>
       ) : (
