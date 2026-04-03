@@ -16,24 +16,30 @@ export default function BudgetCard() {
           setTotalSpend(0);
           return;
         }
+
         const parsed = JSON.parse(raw);
         setBudget(parsed.budget || 0);
 
         // Calculate total spend from selected items
         const selectedItems = [];
-        const { options = [], selectedByDay = {} } = parsed;
-
+        const { options = [], selectedByDay = {}, days = [] } = parsed;
+        
         Object.keys(selectedByDay).forEach((dayLabel) => {
           const ids = selectedByDay[dayLabel] || [];
-          ids.forEach((id) => {
-            const match = options.find((opt) => opt.id === id);
-            if (match) {
-              selectedItems.push(match);
-            }
-          });
+          // Find the day index to access the correct options sub-array
+          const dayIndex = days.findIndex((day) => day.label === dayLabel);
+          
+          if (dayIndex !== -1 && options[dayIndex]) {
+            ids.forEach((id) => {
+              const match = options[dayIndex].find((opt) => opt.id === id);
+              if (match) {
+                selectedItems.push(match);
+              }
+            });
+          }
         });
 
-        const spend = selectedItems.reduce((sum, item) => sum + (item.price || 0), 0);
+        const spend = selectedItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
         setTotalSpend(spend);
       } catch {
         // ignore
@@ -51,7 +57,6 @@ export default function BudgetCard() {
     };
 
     window.addEventListener('storage', handleStorageChange);
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
@@ -68,7 +73,6 @@ export default function BudgetCard() {
   return (
     <div className="section-card">
       <h2 className="section-title">Budget</h2>
-
       {budget > 0 ? (
         <>
           <div className="budget-bar-container">
@@ -77,7 +81,6 @@ export default function BudgetCard() {
               style={{ width: `${budgetPercentage}%` }}
             />
           </div>
-
           <div className="budget-info">
             <div className="budget-spend">
               <span className="budget-label">Spent:</span>
@@ -92,7 +95,6 @@ export default function BudgetCard() {
               </span>
             </div>
           </div>
-
           <p className="card-text budget-status">
             {isOverBudget
               ? `You're over budget by $${(totalSpend - budget).toFixed(2)}`
