@@ -103,7 +103,6 @@ export default function Schedule() {
   // Simple mock meal plan generator
   const generateMealPlan = async ({ schedule, budget, used, menu }) => {
     const result = await ScheduleGenerate(schedule, budget, used, menu);
-    console.log(result);
 
     return result;
 
@@ -681,7 +680,7 @@ export default function Schedule() {
                 </div>
               )}
 
-              {options[currentDayIndex].map((item) => {
+              {options.map((item) => {
                 const selectedForDay = selectedByDay[currentDay.label] || [];
                 const isSelected =
                   selectedForDay[currentMealIndexInDay] === item.id;
@@ -823,7 +822,7 @@ export default function Schedule() {
               </p>
 
               <div className="plan-grid">
-                {days.map((day, i) => {
+                {days.map((day) => {
                   const selectedIds = selectedByDay[day.label] || [];
                   if (!selectedIds.length || day.skipDay) return null;
 
@@ -832,7 +831,9 @@ export default function Schedule() {
                       <h3 className="plan-day">{day.label}</h3>
                       {day.meals.map((meal, mealIdx) => {
                         const selectedItemId = selectedIds[mealIdx];
-                        const item = options[i]?.find((opt) => opt.id === selectedItemId);
+                        const item = options.find(
+                          (opt) => opt.id === selectedItemId,
+                        );
 
                         if (!item) return null;
 
