@@ -81,7 +81,7 @@ export default function BudgetCard() {
           <div className="budget-info">
             <div className="budget-spend">
               <span className="budget-label">Spent:</span>
-              <span className="budget-amount">${totalSpend.toFixed(2)}</span>
+              <span className="budget-amount">${(totalSpend * 1.12).toFixed(2)}</span>
             </div>
             <div className="budget-remaining">
               <span className="budget-label">
