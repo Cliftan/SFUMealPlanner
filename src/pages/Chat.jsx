@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
-import ChatbotIcon from "../components/ChatbotIcon";
+import ChatbotIcon from "../components/ChatbotIcon.jsx";
 import ChatForm from "../components/ChatForm";
 import { useEffect, useState, useRef} from "react";
 import ChatMessage from "../components/ChatMessage";
